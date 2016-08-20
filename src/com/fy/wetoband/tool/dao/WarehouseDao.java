@@ -160,49 +160,46 @@ public class WarehouseDao {
 		return wh;
 	}
 	
-//	/**
-//	 * 获取所有仓库
-//	 * @author
-//	 * @param conn
-//	 * @param discard
-//	 * @return
-//	 * @throws SQLException
-//	 */
-//	public List<Warehouse> getAll(Connection conn, String discard) throws SQLException {
-//		String sql = "select w.wh_id, w.wh_name, w.wh_addr as address, e.employee_name as personName, w.wh_remark,"
-//				+ " w.wh_discard,"
-//				+ " w.wh_type, w.wh_tel from wh_warehouse w "
-//				+ " left join hr_employee e on w.keeper = e.employee_no ";
-//		if (discard != null ){
-//			if (discard.toUpperCase().equals("Y")) {
-//				sql +=" where wh_discard = 1 ";
-//			} else {
-//				sql +=" where wh_discard != 1 ";
-//			}
-//		}
-//		
-//		PreparedStatement pt = conn.prepareStatement(sql);
-//		ResultSet rs = pt.executeQuery();
-//		List<Warehouse> list = new ArrayList<Warehouse>();
-//		Warehouse wh = null;
-//		while (rs.next()) {
-//			wh = new Warehouse();
-//			wh.setWhId(rs.getString("wh_id"));
-//			wh.setWhName(rs.getString("wh_name"));
-//			list.add(wh);
-//		}
-//		if (rs!= null) {
-//			rs.close();
-//		}
-//		if (pt != null) {
-//			pt.close();
-//		}
-//		return list;
-//	}
-//	
-//	public List<Warehouse> getAllCard(Connection conn) throws SQLException {
-//		return getAll(conn, "N");
-//	}
+	/**
+	 * 获取所有仓库
+	 * @author
+	 * @param conn
+	 * @param discard
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<Warehouse> getAll(Connection conn, String discard) throws SQLException {
+		String sql = "select w.wh_id, w.wh_name from wh_warehouse w ";
+		if (discard != null ){
+			if (discard.toUpperCase().equals("Y")) {
+				sql +=" where wh_discard = 1 ";
+			} else {
+				sql +=" where (wh_discard = 0 or wh_discard is null) ";
+			}
+		}
+		
+		PreparedStatement pt = conn.prepareStatement(sql);
+		ResultSet rs = pt.executeQuery();
+		List<Warehouse> list = new ArrayList<Warehouse>();
+		Warehouse wh = null;
+		while (rs.next()) {
+			wh = new Warehouse();
+			wh.setWhId(rs.getString("wh_id"));
+			wh.setWhName(rs.getString("wh_name"));
+			list.add(wh);
+		}
+		if (rs!= null) {
+			rs.close();
+		}
+		if (pt != null) {
+			pt.close();
+		}
+		return list;
+	}
+	
+	public List<Warehouse> getAllCard(Connection conn) throws SQLException {
+		return getAll(conn, "N");
+	}
 	
 	/**
 	 * 查询仓库
@@ -212,16 +209,20 @@ public class WarehouseDao {
 	 * @return
 	 * @throws SQLException
 	 */
-	public List<Warehouse> list(Connection conn, String discard, int page, int rows) throws SQLException {
+	public List<Warehouse> list(Connection conn,String whName, String discard, int page, int rows) throws SQLException {
 		String sql = "select w.wh_id, w.wh_name, w.wh_addr as address, e.employee_name as personName, w.wh_remark,"
 				+ " w.wh_discard,"
 				+ " w.wh_type, w.wh_tel from wh_warehouse w "
-				+ " left join hr_employee e on w.keeper = e.employee_no ";
+				+ " left join hr_employee e on w.keeper = e.employee_no where 1=1 ";
+		if (whName != null && !"".equals(whName) ){
+			sql +=" and w.wh_name like '%" + whName + "%' ";
+		}
+		
 		if (discard != null ){
 			if (discard.toUpperCase().equals("Y")) {
-				sql +=" where wh_discard = 1 ";
+				sql +=" and wh_discard = 1 ";
 			} else {
-				sql +=" where wh_discard = 0 or wh_discard is null ";
+				sql +=" and (wh_discard = 0 or wh_discard is null) ";
 			}
 		}
 		sql += " limit " + (page-1)*rows + "," + rows;
@@ -251,8 +252,8 @@ public class WarehouseDao {
 		return list;
 	}
 	
-	public List<Warehouse> listCard(Connection conn, int page, int rows) throws SQLException {
-		return list(conn, "N", page, rows);
+	public List<Warehouse> listCard(Connection conn, String whName, int page, int rows) throws SQLException {
+		return list(conn, whName, "N", page, rows);
 	}
 	
 	/**

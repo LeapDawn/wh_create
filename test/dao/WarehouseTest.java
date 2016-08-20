@@ -5,17 +5,21 @@
 //import java.sql.SQLException;
 //import java.text.SimpleDateFormat;
 //import java.util.Date;
+//import java.util.HashMap;
 //import java.util.List;
+//import java.util.Map;
 //import java.util.Random;
 //import java.util.concurrent.atomic.AtomicInteger;
 //
 //import junit.framework.Assert;
+//import net.sf.json.JSONObject;
 //
 //import org.junit.After;
 //import org.junit.Before;
 //import org.junit.Test;
 //
 //import com.fy.wetoband.tool.dao.WarehouseDao;
+//import com.fy.wetoband.tool.dto.AjaxResult;
 //import com.fy.wetoband.tool.entity.Warehouse;
 //
 //public class WarehouseTest {
@@ -90,14 +94,19 @@
 //	
 //	@Test
 //	public void testfindById() {
-//		Warehouse wh = null;
-//		try {
-//		    wh = whdao.findById(conn, "1608224153956");
-//			System.out.println(wh);
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+////		Warehouse wh = null;
+////		try {
+////		    wh = whdao.findById(conn, "1608224153956");
+////			System.out.println(wh);
+////		} catch (SQLException e) {
+////			// TODO Auto-generated catch block
+////			e.printStackTrace();
+////		}
+//		Map<String,String> map = new HashMap<String,String>();
+//		map.put("1324", "aba");
+//		map.put("5677", "dfa");
+//		AjaxResult<Map> result = new AjaxResult<Map>(true, map);
+//		System.out.println(JSONObject.fromObject(result).toString());
 //	}
 //	
 //	@Test
@@ -127,9 +136,9 @@
 //	@Test
 //	public void testlist() {
 //		try {
-//		    List<Warehouse> dis = whdao.list(conn, "Y", 1, 2);
-//		    List<Warehouse> no_dis = whdao.list(conn, "N", 1, 2);
-//		    List<Warehouse> no_dis2 = whdao.listCard(conn, 2, 2);
+//		    List<Warehouse> dis = whdao.list(conn,"仓库", "N", 1, 10);
+//		    List<Warehouse> no_dis = whdao.list(conn,null, "N", 1, 2);
+//		    List<Warehouse> no_dis2 = whdao.listCard(conn,null, 2, 2);
 //		    System.out.println("已删除:");
 //		    for (Warehouse warehouse : dis) {
 //				System.out.println(warehouse);

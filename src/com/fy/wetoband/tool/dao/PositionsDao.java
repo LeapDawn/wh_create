@@ -95,11 +95,17 @@ public class PositionsDao {
 		return po;
 	}
 	
-	public List<Positions> getAll(Connection conn, String discard, String wh_id) throws SQLException {
+	public List<Positions> get(Connection conn, String discard, String wh_id) throws SQLException {
 		String sql = "select p.po_id, p.po_name from wh_positions p where 1=1 ";
-		if (discard != null && (discard.toUpperCase().equals("Y") || discard.toUpperCase().equals("N"))) {
-			sql +=" and p.po_discard like '" + discard +"' ";
+	
+		if (discard != null ){
+			if (discard.toUpperCase().equals("Y")) {
+				sql +=" and p.po_discard like 'Y' ";
+			} else {
+				sql +=" and (p.po_discard like 'N' or p.po_discard is null) ";
+			}
 		}
+		
 		if (wh_id != null && !wh_id.equals("")) {
 			sql +=" and p.wh_id like '" + wh_id +"' ";
 		}
@@ -123,17 +129,20 @@ public class PositionsDao {
 		return list;
 	}
 	
-	public List<Positions> getAllCard(Connection conn, String wh_id) throws SQLException {
-		return getAll(conn,"N",wh_id);
+	public List<Positions> get(Connection conn, String wh_id) throws SQLException {
+		return get(conn,"N",wh_id);
 	}
 	
-	public List<Positions> getAllCard(Connection conn) throws SQLException {
-		return getAll(conn,"N",null);
+	public List<Positions> get(Connection conn) throws SQLException {
+		return get(conn,"N",null);
 	}
 	
-	public List<Positions> list(Connection conn, String discard, String wh_id, int page, int rows) throws SQLException {
+	public List<Positions> list(Connection conn, String poName, String discard, String wh_id, int page, int rows) throws SQLException {
 		String sql = "select p.po_id, p.po_name, p.po_remark, p.po_discard, p.wh_id, w.wh_name from wh_positions p left join "
 				+ " wh_warehouse w on p.wh_id = w.wh_id where 1=1 ";
+		if (poName != null && !poName.equals("")) {
+			sql +=" and p.po_Name like '%" + poName +"%' ";
+		}
 		if (discard != null && (discard.toUpperCase().equals("Y"))) {
 			sql +=" and p.po_discard like 'Y' ";
 		} else {
@@ -169,18 +178,16 @@ public class PositionsDao {
 		return list;
 	}
 	
-	public List<Positions> listCard(Connection conn, String wh_id, int page, int rows) throws SQLException {
-		return list(conn, "N", wh_id, page, rows);
-	}
-	
-	public List<Positions> listCard(Connection conn, int page, int rows) throws SQLException {
-		return list(conn, "N", null, page, rows);
+	public List<Positions> listCard(Connection conn,String poName, String wh_id, int page, int rows) throws SQLException {
+		return list(conn, poName, "N", wh_id, page, rows);
 	}
 	
 	public int count(Connection conn,String discard, String wh_id) throws SQLException {
-		String sql = "select count(po_id) from wh_positions where 1=1 ";
-		if (discard != null && (discard.toUpperCase().equals("Y") || discard.toUpperCase().equals("N"))) {
-			sql +=" and po_discard like '" + discard +"' ";
+		String sql = "select count(po_id) from wh_positions p where 1=1 ";
+		if (discard != null && (discard.toUpperCase().equals("Y"))) {
+			sql +=" and p.po_discard like 'Y' ";
+		} else {
+			sql +=" and (p.po_discard like 'N' or p.po_discard is null)  ";
 		}
 		if (wh_id != null && !wh_id.equals("")) {
 			sql +=" and wh_id like '" + wh_id + "'";

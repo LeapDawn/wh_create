@@ -113,11 +113,11 @@ public class PositionsService {
 	 * @param rows  每页记录数
 	 * @return  页面模型
 	 */
-	public PageModel listByWh(String WhID, int currentPage, int rows) throws ToolException{
+	public PageModel listByWh(String poName, String whID, int currentPage, int rows) throws ToolException{
 		try {
-			int total = podao.countCard(conn, WhID);
+			int total = podao.countCard(conn, whID);
 			PageModel pageModel = new PageModel(total, rows, currentPage);
-			List<Positions> list = podao.listCard(conn, WhID, pageModel.getCurrentPage(), pageModel.getRows());
+			List<Positions> list = podao.listCard(conn, poName, whID, pageModel.getCurrentPage(), pageModel.getRows());
 			List<PPositions> plist = new ArrayList<PPositions>();
 			for (Positions po : list) {
 				plist.add(changeToPageModel(po));
@@ -127,6 +127,22 @@ public class PositionsService {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new ToolException("查询指定仓库下的仓位列表时发生异常");
+		}
+	}
+	
+	/**
+	 * 获取仓位(下拉框)
+	 * @param whID(仓库ID)
+	 * @return
+	 * @throws ToolException
+	 */
+	public List<Positions> getByWh(String whID) throws ToolException{
+		try {
+			List<Positions> list = podao.get(conn, whID);
+			return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new ToolException("查询仓位选项失败");
 		}
 	}
 	

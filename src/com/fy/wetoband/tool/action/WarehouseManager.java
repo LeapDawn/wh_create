@@ -48,6 +48,8 @@ public class WarehouseManager extends Tool {
 			this.getWareHouse(request, response);
 		} else if (toolAction.equals("listWarehouse")){
 			this.listWareHouse(request, response);
+		} else if (toolAction.equals("warehouseSelect")){
+			this.wareHouseSelect(request, response);
 		} else if (toolAction.equals("addPosition")){
 			this.addPosition(request, response);
 		} else if (toolAction.equals("updatePosition")){
@@ -58,6 +60,8 @@ public class WarehouseManager extends Tool {
 			this.getPosition(request, response);
 		} else if (toolAction.equals("listPosition")){
 			this.listPosition(request, response);
+		} else if (toolAction.equals("positionSelect")){
+			this.positionSelect(request, response);
 		} else if (toolAction.equals("addShelf")){
 			this.addShelf(request, response);
 		} else if (toolAction.equals("updateShelf")){
@@ -68,6 +72,8 @@ public class WarehouseManager extends Tool {
 			this.getShelf(request, response);
 		} else if (toolAction.equals("listShelf")){
 			this.listShelf(request, response);
+		} else if (toolAction.equals("shelfSelect")){
+			this.shelfSelect(request, response);
 		} else if (toolAction.equals("addMaterielConfig")){
 			this.addMaterielConfig(request, response);
 		} else if (toolAction.equals("addAllMaterielConfig")){
@@ -312,7 +318,7 @@ public class WarehouseManager extends Tool {
 	/**
 	 * 获取仓库列表
 	 * toolAction=listWarehouse
-	 * @接受前端参数(非必须):currentPage当前页码(默认1), rows每页记录数(默认10)
+	 * @接受前端参数(非必须):whName仓库名称(为空则没有该查询条件),currentPage当前页码(默认1), rows每页记录数(默认10)
 	 * @返回前端数据:AjaxResult(Boolean, PageModel/String)
 	 */
 	private void listWareHouse(HttpServletRequest request, HttpServletResponse response) {
@@ -321,6 +327,7 @@ public class WarehouseManager extends Tool {
 		// 获取数据
 		String currentPageStr = request.getParameter("currentPage");
 		String rowsStr = request.getParameter("rows"); 
+		String whName = request.getParameter("whName"); 
 		
 		// 数据转化
 		int currentPage = 0;
@@ -331,6 +338,7 @@ public class WarehouseManager extends Tool {
 		if (StringUtil.checkNotNull(rowsStr) && StringUtil.isNum(rowsStr)){
 			rows = Integer.valueOf(rowsStr);
 		}
+		whName = StringUtil.changeEncoding(whName);
 		
 		// 执行业务
 		Connection conn = this.getConnectionByBViewID();
@@ -338,9 +346,44 @@ public class WarehouseManager extends Tool {
 		boolean state = false;
 		Object obj = null;	
 		try {
-			obj = whservice.list(currentPage, rows);
+			obj = whservice.list(whName, currentPage, rows);
 			state = true;
-//			this.writeResult(response, whservice.list(currentPage, rows).getData());
+//			this.writeResult(response, whservice.list(whName, currentPage, rows).getData());
+		} catch (ToolException e) {
+			e.printStackTrace();
+			state = false;
+			obj = e.getMessage();
+		} finally {
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		result = new AjaxResult<Object>(state, obj);
+		this.writeResult(response, result);
+	}
+	
+	/**
+	 * 获取仓库下拉框
+	 * toolAction=warehouseSelect
+	 * @返回前端数据:AjaxResult(Boolean, List/String)
+	 */
+	private void wareHouseSelect(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("进入WareHouseSelect");
+		AjaxResult<Object> result = null;
+		
+		// 执行业务
+		Connection conn = this.getConnectionByBViewID();
+		WarehouseService whservice = new WarehouseService(conn);
+		boolean state = false;
+		Object obj = null;	
+		try {
+			obj = whservice.getWarehouse();
+			state = true;
 		} catch (ToolException e) {
 			e.printStackTrace();
 			state = false;
@@ -570,19 +613,21 @@ public class WarehouseManager extends Tool {
 	/**
 	 * 获取仓位列表
 	 * toolAction=listPosition
-	 * @接受前端参数(非必须):warehouseId(仓库ID,若为空,则表示查询所有仓位), currentPage当前页码(默认1), rows每页记录数(默认10)
+	 * @接受前端参数(非必须):poName(仓位名称),warehouseId(仓库ID,若为空,则表示查询所有仓库的仓位), currentPage当前页码(默认1), rows每页记录数(默认10)
 	 * @返回前端数据:AjaxResult(Boolean, PageModel/String)
 	 */
 	private void listPosition(HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("进入listPosition");
 		AjaxResult<Object> result = null;
 		// 获取数据
+		String poName = request.getParameter("poName"); 
 		String warehouseId = request.getParameter("warehouseId");
 		String currentPageStr = request.getParameter("currentPage");
 		String rowsStr = request.getParameter("rows"); 
 		
 		// 数据转化
 		warehouseId = StringUtil.changeEncoding(warehouseId);
+		poName = StringUtil.changeEncoding(poName);
 		int currentPage = 0;
 		int rows = 0;
 		if (StringUtil.checkNotNull(currentPageStr) && StringUtil.isNum(currentPageStr)){
@@ -598,7 +643,7 @@ public class WarehouseManager extends Tool {
 		boolean state = false;
 		Object obj = null;	
 		try {
-			obj = poservice.listByWh(warehouseId, currentPage, rows);
+			obj = poservice.listByWh(poName, warehouseId, currentPage, rows);
 			state = true;
 		} catch (ToolException e) {
 			state = false;
@@ -612,6 +657,46 @@ public class WarehouseManager extends Tool {
 				e.printStackTrace();
 			}
 		}
+		result = new AjaxResult<Object>(state, obj);
+		this.writeResult(response, result);
+	}
+	
+	
+	/**
+	 * 获取仓位下拉框
+	 * toolAction=warehouseSelect
+	 * @参数:whId 仓库ID
+	 * @返回前端数据:AjaxResult(Boolean, List/String)
+	 */
+	private void positionSelect(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("进入positionSelect");
+		AjaxResult<Object> result = null;
+		
+		String whId = request.getParameter("whId");
+		whId = StringUtil.changeEncoding(whId);
+		
+		// 执行业务
+		Connection conn = this.getConnectionByBViewID();
+		PositionsService poservice = new PositionsService(conn);
+		boolean state = false;
+		Object obj = null;	
+		try {
+			obj = poservice.getByWh(whId);
+			state = true;
+		} catch (ToolException e) {
+			e.printStackTrace();
+			state = false;
+			obj = e.getMessage();
+		} finally {
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		result = new AjaxResult<Object>(state, obj);
 		this.writeResult(response, result);
 	}
@@ -828,19 +913,21 @@ public class WarehouseManager extends Tool {
 	/**
 	 * 获取货架列表
 	 * toolAction=listShelf
-	 * @接受前端参数(非必须):positionsId(仓位ID,若为空,则表示查询所有货架), currentPage当前页码(默认1), rows每页记录数(默认10)
+	 * @接受前端参数(非必须):shName(货架名称),positionsId(仓位ID,若为空,则表示查询所有货架), currentPage当前页码(默认1), rows每页记录数(默认10)
 	 * @返回前端数据:AjaxResult(Boolean, PageModel/String)
 	 */
 	private void listShelf(HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("进入listShelf");
 		AjaxResult<Object> result = null;
 		// 获取数据
+		String shName = request.getParameter("shName");
 		String positionsId = request.getParameter("positionsId");
 		String currentPageStr = request.getParameter("currentPage");
 		String rowsStr = request.getParameter("rows"); 
 		
 		// 数据转化
 		positionsId = StringUtil.changeEncoding(positionsId);
+		shName = StringUtil.changeEncoding(shName);
 		int currentPage = 0;
 		int rows = 0;
 		if (StringUtil.checkNotNull(currentPageStr) && StringUtil.isNum(currentPageStr)){
@@ -856,7 +943,7 @@ public class WarehouseManager extends Tool {
 		boolean state = false;
 		Object obj = null;	
 		try {
-			obj = shservice.listByPo(positionsId, currentPage, rows);
+			obj = shservice.listByPo(shName,positionsId, currentPage, rows);
 			state = true;
 		} catch (ToolException e) {
 			state = false;
@@ -870,6 +957,45 @@ public class WarehouseManager extends Tool {
 				e.printStackTrace();
 			}
 		}
+		result = new AjaxResult<Object>(state, obj);
+		this.writeResult(response, result);
+	}
+	
+	/**
+	 * 获取货架下拉框
+	 * toolAction=warehouseSelect
+	 * @参数:shId 仓位ID
+	 * @返回前端数据:AjaxResult(Boolean, List/String)
+	 */
+	private void shelfSelect(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("进入positionSelect");
+		AjaxResult<Object> result = null;
+		
+		String poId = request.getParameter("poId");
+		poId = StringUtil.changeEncoding(poId);
+		
+		// 执行业务
+		Connection conn = this.getConnectionByBViewID();
+		ShelfService shservice = new ShelfService(conn);
+		boolean state = false;
+		Object obj = null;	
+		try {
+			obj = shservice.getByPo(poId);
+			state = true;
+		} catch (ToolException e) {
+			e.printStackTrace();
+			state = false;
+			obj = e.getMessage();
+		} finally {
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		result = new AjaxResult<Object>(state, obj);
 		this.writeResult(response, result);
 	}

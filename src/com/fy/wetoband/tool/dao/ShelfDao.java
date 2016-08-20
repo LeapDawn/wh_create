@@ -107,66 +107,58 @@ public class ShelfDao {
 		return sh;
 	}
 	
-//	/**
-//	 * 获取所有货架的ID与名称(可指定某个仓库/仓位)
-//	 * @param conn
-//	 * @param discard
-//	 * @param po_id
-//	 * @param wh_id
-//	 * @return
-//	 * @throws SQLException
-//	 */
-//	public List<Shelf> getAll(Connection conn, String discard, String po_id, String wh_id) throws SQLException {
-//		String sql = "select s.sh_id, s.sh_description as sh_name from wh_shelf s "
-//				+ " left join wh_positions p on s.po_id = p.po_id "
-//				+ " where 1=1 ";
-//		if (discard != null ){
-//			if (discard.toUpperCase().equals("Y")) {
-//				sql +=" where s.sh_discard = 1 ";
-//			} else {
-//				sql +=" where s.sh_discard = 0 or s.sh_discard = null ";
-//			}
-//		}
-//		if (po_id != null && !po_id.equals("")) {
-//			sql +=" and s.po_id like '" + po_id +"' ";
-//		}
-//		if (wh_id != null && !wh_id.equals("")) {
-//			sql +=" and p.wh_id like '" + wh_id +"' ";
-//		}
-//		
-//		PreparedStatement pt = conn.prepareStatement(sql);
-//		ResultSet rs = pt.executeQuery();
-//		
-//		List<Shelf> list = new ArrayList<Shelf>();
-//		Shelf sh = null;
-//		while (rs.next()) {
-//			sh = new Shelf();
-//			sh.setShId(rs.getString("sh_id"));
-//			sh.setShName(rs.getString("sh_name"));
-//			list.add(sh);
-//		}
-//		if (rs!= null) {
-//			rs.close();
-//		}
-//		if (pt != null) {
-//			pt.close();
-//		}
-//		return list;
-//	}
-//	
-//	public List<Shelf> getAllCard(Connection conn, String po_id, String wh_id) throws SQLException {
-//		return getAll(conn, "N", po_id, wh_id);
-//	}
-//	
-//	public List<Shelf> getAllCard(Connection conn, String po_id) throws SQLException {
-//		return getAll(conn, "N", po_id, null);
-//	}
-//	
-//	public List<Shelf> getAllCard(Connection conn) throws SQLException {
-//		return getAll(conn, "N", null, null);
-//	}
+	/**
+	 * 获取所有货架的ID与名称(可指定某个仓库/仓位)
+	 * @param conn
+	 * @param discard
+	 * @param po_id
+	 * @param wh_id
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<Shelf> get(Connection conn, String discard, String po_id) throws SQLException {
+		String sql = "select s.shelf_id as sh_id, s.shelf_description as sh_name from wh_shelf s where 1=1 ";
+		if (discard != null ){
+			if (discard.toUpperCase().equals("Y")) {
+				sql +=" and s.sh_discard = 1 ";
+			} else {
+				sql +=" and (s.sh_discard = 0 or s.sh_discard is null) ";
+			}
+		}
+		if (po_id != null && !po_id.equals("")) {
+			sql +=" and s.po_id like '" + po_id +"' ";
+		}
+		System.out.println(sql);
+		PreparedStatement pt = conn.prepareStatement(sql);
+		ResultSet rs = pt.executeQuery();
+		
+		List<Shelf> list = new ArrayList<Shelf>();
+		Shelf sh = null;
+		while (rs.next()) {
+			sh = new Shelf();
+			sh.setShId(rs.getString("sh_id"));
+			sh.setShName(rs.getString("sh_name"));
+			list.add(sh);
+		}
+		if (rs!= null) {
+			rs.close();
+		}
+		if (pt != null) {
+			pt.close();
+		}
+		return list;
+	}
 	
-	public List<Shelf> list(Connection conn, String discard, String po_id, String wh_id, int page, int rows) throws SQLException {
+	public List<Shelf> getByPo(Connection conn, String po_id) throws SQLException {
+		return get(conn, "N", po_id);
+	}
+	
+	
+	public List<Shelf> getAllCard(Connection conn) throws SQLException {
+		return get(conn, "N", null);
+	}
+	
+	public List<Shelf> list(Connection conn, String shName, String discard, String po_id, String wh_id, int page, int rows) throws SQLException {
 		String sql = "select s.shelf_id as sh_id, s.shelf_description as sh_name, s.shelf_remark as sh_remark, s.sh_discard, s.po_id, p.po_name, p.wh_id, w.wh_name "
 				+ " from wh_shelf s "
 				+ " left join wh_positions p on s.po_id = p.po_id "
@@ -179,6 +171,10 @@ public class ShelfDao {
 				sql +=" and (s.sh_discard = 0 or s.sh_discard is null) ";
 			}
 		}
+		if (shName != null && !shName.equals("")) {
+			sql +=" and s.shelf_description like '%" + shName +"%' ";
+		}
+		
 		if (po_id != null && !po_id.equals("")) {
 			sql +=" and s.po_id like '" + po_id +"' ";
 		}
@@ -218,17 +214,17 @@ public class ShelfDao {
 		return list;
 	}
 	
-	public List<Shelf> listCard(Connection conn, String po_id, String wh_id, int page, int rows) throws SQLException {
-		return list(conn, "N", po_id, wh_id, page, rows);
+	public List<Shelf> listCard(Connection conn, String shName,String po_id, String wh_id, int page, int rows) throws SQLException {
+		return list(conn,shName, "N", po_id, wh_id, page, rows);
 	}
 	
-	public List<Shelf> listCard(Connection conn, String po_id, int page, int rows) throws SQLException {
-		return list(conn, "N", po_id, null, page, rows);
+	public List<Shelf> listCard(Connection conn,String shName, String po_id, int page, int rows) throws SQLException {
+		return list(conn, shName, "N", po_id, null, page, rows);
 	}
 	
-	public List<Shelf> listCard(Connection conn, int page, int rows) throws SQLException {
-		return list(conn, "N", null, null, page, rows);
-	}
+//	public List<Shelf> listCard(Connection conn, int page, int rows) throws SQLException {
+//		return list(conn, "N", null, null, page, rows);
+//	}
 	
 	public int count(Connection conn, String discard, String po_id, String wh_id) throws SQLException {
 		String sql = "select count(s.shelf_id) from wh_shelf s "

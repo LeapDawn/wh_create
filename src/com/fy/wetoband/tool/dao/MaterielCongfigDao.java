@@ -165,10 +165,10 @@ public class MaterielCongfigDao {
 		String sql = "select m.materials_id, m.description as ma_name, mm.description as ma_model, ms.description as ma_spec "
 				+ " from bd_materials m "
 				+ " left join bd_spec ms on ms.spec_id = m.spec_id "
-				+ " left join bd_model mm on mm.model_id = m.model_id ";
+				+ " left join bd_model mm on mm.model_id = m.model_id where (m.isvalid=1 or m.isvalid is null) ";
 		
 		if (maName != null && !maName.equals("")) {
-			sql += " where m.description like '%" + maName + "%' ";
+			sql += " and m.description like '%" + maName + "%' ";
 		}
 		
 		sql += " limit " + (page-1)*rows + "," + rows;

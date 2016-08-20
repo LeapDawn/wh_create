@@ -115,12 +115,12 @@ public class ShelfService {
 	 * @return
 	 * @throws ToolException
 	 */
-	public PageModel listByPo(String poID, int currentPage, int rows) throws ToolException {
+	public PageModel listByPo(String shName, String poID, int currentPage, int rows) throws ToolException {
 		
 		try {
 			int total = shdao.countCard(conn, poID);
 			PageModel pageModel = new PageModel(total, rows, currentPage);
-			List<Shelf> list = shdao.listCard(conn, poID, pageModel.getCurrentPage(), pageModel.getRows());
+			List<Shelf> list = shdao.listCard(conn, shName, poID, pageModel.getCurrentPage(), pageModel.getRows());
 			List<PShelf> plist = new ArrayList<PShelf>();
 			for (Shelf shelf : list) {
 				plist.add(changeToPageModel(shelf));
@@ -133,6 +133,22 @@ public class ShelfService {
 		}
 	}
 	
+	/**
+	 * 获取货架(下拉框)
+	 * @param poID 仓位ID
+	 * @return
+	 * @throws ToolException
+	 */
+	public List<Shelf> getByPo(String poID) throws ToolException {
+		
+		try {
+			List<Shelf> list = shdao.getByPo(conn, poID);
+			return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new ToolException("查询货架选项失败");
+		}
+	}
 	
 	private PShelf changeToPageModel(Shelf sh){
 		PShelf psh = new PShelf();

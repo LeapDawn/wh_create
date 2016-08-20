@@ -35,7 +35,7 @@ public class WarehouseService{
 	 * 新增仓库 
 	 * @param pwh 仓库信息实体
 	 * @return
-	 * @throws RuntimeException
+	 * @throws ToolException
 	 */
 	public boolean addWareHouse(PWareHouse pwh) throws ToolException{
 		Warehouse wh = new Warehouse();
@@ -58,7 +58,7 @@ public class WarehouseService{
 	 * 更新仓库信息
 	 * @param pwh  仓库信息实体
 	 * @return
-	 * @throws RuntimeException
+	 * @throws ToolException
 	 */
 	public boolean updateWareHouse(PWareHouse pwh) throws ToolException{
 		Warehouse wh = new Warehouse();
@@ -81,7 +81,7 @@ public class WarehouseService{
 	 * 根据ID删除仓库
 	 * @param whID  仓库ID
 	 * @return
-	 * @throws RuntimeException
+	 * @throws ToolException
 	 */
 	public boolean deleteWareHouse(String whID) throws ToolException{
 		boolean success = false;
@@ -98,7 +98,7 @@ public class WarehouseService{
 	 * 根据ID查询仓库
 	 * @param whID  仓库ID
 	 * @return 仓库信息实体
-	 * @throws RuntimeException
+	 * @throws ToolException
 	 */
 	public PWareHouse findByID(String whID) throws ToolException{
  		Warehouse wh = null;
@@ -120,13 +120,13 @@ public class WarehouseService{
 	 * @param currentPage  当前页面
 	 * @param rows  每页记录数
 	 * @return   页面模型
-	 * @throws RuntimeException
+	 * @throws ToolException
 	 */
-	public PageModel list(int currentPage,int rows) throws ToolException{
+	public PageModel list(String whName, int currentPage, int rows) throws ToolException{
 		try {
 			int total = whdao.countCard(conn);
 			PageModel pageModel = new PageModel(total, rows, currentPage);
-			List<Warehouse> list = whdao.listCard(conn, pageModel.getCurrentPage(), pageModel.getRows());
+			List<Warehouse> list = whdao.listCard(conn, whName ,pageModel.getCurrentPage(), pageModel.getRows());
 			List<PWareHouse> plist = new ArrayList<PWareHouse>();
 			for (Warehouse wh : list) {
 				plist.add(changeToPageModel(wh));
@@ -136,6 +136,25 @@ public class WarehouseService{
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new ToolException("查询仓库列表时发生异常");
+		}
+	}
+	
+	/**
+	 * 获取所有仓库(下拉框使用)
+	 * @return   页面模型
+	 * @throws ToolException
+	 */
+	public List<Warehouse> getWarehouse() throws ToolException{
+		try {
+			List<Warehouse> list = whdao.getAllCard(conn);
+//			List<PWareHouse> plist = new ArrayList<PWareHouse>();
+//			for (Warehouse wh : list) {
+//				plist.add(changeToPageModel(wh));
+//			}
+			return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new ToolException("获取仓库选项失败");
 		}
 	}
 	

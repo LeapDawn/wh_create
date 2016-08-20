@@ -116,52 +116,51 @@ public class ShelfDaoTest {
 		}
 	}
 
-//	@Test
-//	public void testGetAll() {
-//		try {
-//			List<Shelf> all = shdao.getAll(conn, "Y", null, null);
-//			List<Shelf> allCard = shdao.getAllCard(conn, null, "1608224154329");
-//			List<Shelf> allCard2 = shdao.getAllCard(conn, "0816224162145");
-//			List<Shelf> allCard3 = shdao.getAllCard(conn);
-//			System.out.println("已删除:");
-//			for (Shelf shelf : all) {
-//				System.out.println(shelf);
-//			}
-//			System.out.println("1608224154329仓库未删除:");
-//			 for (Shelf shelf : allCard) {
-//				System.out.println(shelf);
-//			}System.out.println("0816224162145货架删除:");
-//			 for (Shelf shelf : allCard2) {
-//				System.out.println(shelf);
-//			}System.out.println("未删除:");
-//			 for (Shelf shelf : allCard3) {
-//				System.out.println(shelf);
-//			}
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//	}
-	
+	// @Test
+	// public void testGetAll() {
+	// try {
+	// List<Shelf> all = shdao.getAll(conn, "Y", null, null);
+	// List<Shelf> allCard = shdao.getAllCard(conn, null, "1608224154329");
+	// List<Shelf> allCard2 = shdao.getAllCard(conn, "0816224162145");
+	// List<Shelf> allCard3 = shdao.getAllCard(conn);
+	// System.out.println("已删除:");
+	// for (Shelf shelf : all) {
+	// System.out.println(shelf);
+	// }
+	// System.out.println("1608224154329仓库未删除:");
+	// for (Shelf shelf : allCard) {
+	// System.out.println(shelf);
+	// }System.out.println("0816224162145货架删除:");
+	// for (Shelf shelf : allCard2) {
+	// System.out.println(shelf);
+	// }System.out.println("未删除:");
+	// for (Shelf shelf : allCard3) {
+	// System.out.println(shelf);
+	// }
+	// } catch (SQLException e) {
+	// e.printStackTrace();
+	// }
+	// }
+
 	@Test
 	public void testList() {
 		try {
-			List<Shelf> list = shdao.list(conn, "Y", null, null, 1, 2);
-			List<Shelf> listCard = shdao.listCard(conn, null, "1608224154057", 2, 1);
-			List<Shelf> listCard2 = shdao.listCard(conn, "0816224162145", 1, 2);
-			List<Shelf> listCard3 = shdao.listCard(conn, 2, 2);
-			
+			List<Shelf> list = shdao.list(conn, "测试", "Y", null, null, 1, 2);
+			List<Shelf> listCard = shdao.listCard(conn, null, null,
+					"1608224154057", 2, 1);
+			List<Shelf> listCard2 = shdao.listCard(conn, null, "0816224162145",
+					1, 2);
+
 			System.out.println("已删除:");
 			for (Shelf shelf : list) {
 				System.out.println(shelf);
 			}
 			System.out.println("1608224154329仓库未删除:");
-			 for (Shelf shelf : listCard) {
+			for (Shelf shelf : listCard) {
 				System.out.println(shelf);
-			}System.out.println("0816224162145货架删除:");
-			 for (Shelf shelf : listCard2) {
-				System.out.println(shelf);
-			}System.out.println("未删除:");
-			 for (Shelf shelf : listCard3) {
+			}
+			System.out.println("0816224162145货架删除:");
+			for (Shelf shelf : listCard2) {
 				System.out.println(shelf);
 			}
 		} catch (SQLException e) {
@@ -169,22 +168,24 @@ public class ShelfDaoTest {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Test
 	public void testCount() {
-//		AjaxResult<Object> result = new AjaxResult<Object>(false, "仓库名不能为空");
-//		System.out.println(JSONObject.fromObject(result).toString());
-//		Map map = new HashMap<String, Object>();
-//		map.add("state", result.get)
-		
-//		AjaxResult<String> result2 = new AjaxResult<String>(false, "仓库名2不能为空");
-//		System.out.println(JSONObject.fromObject(result2).toString());
-		
+		// AjaxResult<Object> result = new AjaxResult<Object>(false, "仓库名不能为空");
+		// System.out.println(JSONObject.fromObject(result).toString());
+		// Map map = new HashMap<String, Object>();
+		// map.add("state", result.get)
+
+		// AjaxResult<String> result2 = new AjaxResult<String>(false,
+		// "仓库名2不能为空");
+		// System.out.println(JSONObject.fromObject(result2).toString());
+
 		try {
-			System.out.println("所有:"+shdao.count(conn, null, null, null));
-			System.out.println("已删除:"+shdao.count(conn, "Y", null, null));
-			System.out.println("货架...::"+shdao.countCard(conn, "0816224162145"));
-			System.out.println("所有未删除:"+shdao.countCard(conn));
+			System.out.println("所有:" + shdao.count(conn, null, null, null));
+			System.out.println("已删除:" + shdao.count(conn, "Y", null, null));
+			System.out.println("货架...::"
+					+ shdao.countCard(conn, "0816224162145"));
+			System.out.println("所有未删除:" + shdao.countCard(conn));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

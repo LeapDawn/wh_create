@@ -111,10 +111,10 @@ public class PositionsTest {
 	@Test
 	public void testGetAll() {
 		try {
-			List<Positions> all = podao.getAll(conn, "Y", null);
-			List<Positions> all2 = podao.getAll(conn, "Y", "1");
-			List<Positions> allCard = podao.getAllCard(conn, "1608224154057");
-			List<Positions> allCard2 = podao.getAllCard(conn);
+			List<Positions> all = podao.get(conn, "Y", null);
+			List<Positions> all2 = podao.get(conn, "Y", "1");
+			List<Positions> allCard = podao.get(conn, "1608224154057");
+			List<Positions> allCard2 = podao.get(conn);
 			System.out.println("全部已删除:");
 			for (Positions positions : all) {
 				System.out.println(positions);
@@ -140,12 +140,11 @@ public class PositionsTest {
 	@Test
 	public void testList() {
 		try {
-			List<Positions> list = podao.list(conn, "Y", "1", 1, 1);
-			List<Positions> list2 = podao.list(conn, "Y", null, 1, 1);
-			List<Positions> list3 = podao.list(conn, "N", null, 1, 3);
-			List<Positions> listCard = podao.listCard(conn, "1608224154329", 1,
+			List<Positions> list = podao.list(conn, null, "Y", "1", 1, 1);
+			List<Positions> list2 = podao.list(conn, null,"Y", null, 1, 1);
+			List<Positions> list3 = podao.list(conn,"仓位", "N", null, 1, 3);
+			List<Positions> listCard = podao.listCard(conn,null, "1608224154329", 1,
 					3);
-			List<Positions> listCard2 = podao.listCard(conn, 2, 1);
 
 			System.out.println("'1'已删除:");
 			for (Positions positions : list) {
@@ -161,10 +160,6 @@ public class PositionsTest {
 			}
 			System.out.println("'1608224154329'未删除:");
 			for (Positions positions : listCard) {
-				System.out.println(positions);
-			}
-			System.out.println("未删除:");
-			for (Positions positions : listCard2) {
 				System.out.println(positions);
 			}
 		} catch (SQLException e) {
