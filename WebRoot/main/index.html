@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="plugins/bootstrap-3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/font-awesome.css">
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/repertory.css">
+</head>
+<body>
+
+	<div class="header" style="">
+		
+	</div>
+
+	<div class="content">
+		<div class="content-nav" style="min-height:516px;">
+			<ul class="nav nav-pills nav-stacked">
+			  	<li role="presentation" class="active"><a href="index.html"><span class="fa fa-arrow-right"></span> 仓库列表</a></li>
+			    <li role="presentation"><a href="position.html">仓位列表</a></li>
+			    <li role="presentation"><a href="storage.html">货架列表</a></li>
+			    <li role="presentation"><a href="configuration.html">配置信息</a></li>
+			    <li role="presentation"><a href="materiel.html">物料列表</a></li>
+			</ul>
+		</div>
+
+		<div class="content-main">
+
+			<div class="tools">
+				<div class="search">
+					<form class="form-inline">
+					  <div class="form-group">
+					    <input type="text" class="form-control" id="filter" placeholder="请输入搜索内容">
+					  </div>
+					  <button type="button" id="search" class="btn btn-primary" style="margin-left:4px;">搜索 </button>
+					</form>
+				</div>
+				<div class="operation">
+					<button type="button" class="btn btn-success"><span class="fa fa-plus"></span> 新增仓库</button>
+				</div>
+			</div>
+
+			<div class="tableDIV">
+				<table class="table table-bordered">
+				 	<thead>
+				 		<tr>
+				 			<th>名称</th>
+				 			<th>类型</th>
+				 			<th>管理员</th>
+				 			<th>联系电话</th>
+				 		</tr>
+				 	</thead>
+
+				 	<tbody>
+				 		<tr>
+				 		</tr>
+				 	</tbody>
+				</table>
+				<div  id="page1" align="right" style="margin-bottom:20px;margin-top:30px;">
+				</div>
+			</div>
+
+
+		</div>
+
+		<div class="content-main-add" style="display:none;">
+			<div class="panel panel-default">		
+				<div class="panel-heading">仓库x详情</div>
+				<div class="panel-body">
+			      	  <form class="form-horizontal">
+			      	  	<div class="form-group">
+			    	  	  	  <label for="" class="col-sm-2 control-label" style="font-weight:normal;">仓库名称</label>
+			    	  	  	  <div class="col-sm-3">
+			    	  	  	    <input type="text" class="form-control" id="whName" readonly>
+			    	  	  	  </div>
+			    	  	  	
+
+			    	  	  	  <label for="" class="col-sm-2 control-label" style="font-weight:normal;">仓库类型</label>
+			    	  	  	  <div class="col-sm-3">
+			    	  	  	    <input type="text" class="form-control" id="whType" readonly>
+			    	  	  	  </div>
+			      	  	</div>
+
+			      	  	<div class="form-group">
+			    	  	  	  <label for="" class="col-sm-2 control-label" style="font-weight:normal;">保管人</label>
+			    	  	  	  <div class="col-sm-3">
+			    	  	  	    <input type="text" class="form-control" id="personName" readonly>
+			    	  	  	  </div>
+			    	  	  	
+
+			    	  	  	  <label for="" class="col-sm-2 control-label" style="font-weight:normal;">电话号码</label>
+			    	  	  	  <div class="col-sm-3">
+			    	  	  	    <input type="text" class="form-control" id="whTel" readonly>
+			    	  	  	  </div>
+			      	  	</div>
+
+			      	  	<div class="form-group">
+			    	  	  	  <label for="" class="col-sm-2 control-label" style="font-weight:normal;">仓库地址</label>
+			    	  	  	  <div class="col-sm-6">
+			    	  	  	    <input type="text" class="form-control" id="personName" readonly>
+			    	  	  	  </div>
+			      	  	</div>
+
+			      	  	<div class="form-group">
+			    	  	  	  <label for="" class="col-sm-2 control-label" style="font-weight:normal;">备注</label>
+			    	  	  	  <div class="col-sm-6">
+			    	  	  	    <textarea type="text" class="form-control" id="whRemark" readonly></textarea>
+			    	  	  	  </div>
+			      	  	</div>
+			      	  </form>
+
+				</div>
+				<div class="panel-footer" style="clear:both;">
+					<div style="float:right;">
+						<button type="button" class="btn btn-primary" id="ensureAdd" style="display:none;margin-right:10px;">保存</button>
+						<button type="button" class="btn btn-primary" id="ensureModify" style="margin-left:10px;">修改</button>
+						<button type="button" class="btn btn-default" id="prevPage" style="margin-left:10px;">返回列表</button>
+					</div>
+					<div class="clear">
+						
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+	</div>
+
+	<script src="js/jquery.min.js"></script>
+	<script src="plugins/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+	<script src="plugins/laypage/laypage.js"></script>
+	<script src="js/publicDom.js"></script>
+	<script src="js/repertory.js"></script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+*{
+	margin:0;
+	text-decoration: none;
+	font-family: 'Microsoft Yahei';
+}
+
+li{
+	float: left;
+}
+
+.header{
+	height:80px;
+	border:1px solid #aaa;
+}
+
+.content{
+	width: 98%;
+	margin: 0 auto;
+	padding:20px;
+}
+
+.content .content-nav{
+	width:16%;
+	float: left;
+	padding-right: 20px;
+	border-right: 1px solid #eee;
+}
+
+.content .content-main{
+	width:84%;
+	float: left;
+	padding-left: 26px;
+
+}
+
+.content .content-main .tools .search{
+	float: left;
+}
+
+.content .content-main .tools .operation{
+	float: right;
+}
+
+.content .content-main .tableDIV{
+	margin-top: 60px;
+}
+
+.content .content-main .tableDIV th,.content .content-main .tableDIV td{
+	text-align: center;
+
+}
+
+.content .content-main-add{
+	width:84%;
+	float: left;
+	padding-left: 26px;
+	height: 300px;
+}
+
+.content .content-main-add .panel-body{
+	padding-top: 34px;
+	padding-bottom: 34px;
+}
+
+.clear{clear:both; height: 0; line-height: 0; font-size: 0}
+
+
