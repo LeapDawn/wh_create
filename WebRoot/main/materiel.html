@@ -5,6 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title></title>
 	<link rel="stylesheet" href="plugins/bootstrap-3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/font-awesome.css">
 	<link rel="stylesheet" href="css/reset.css">
 	<link rel="stylesheet" href="css/materiel.css">
 </head>
@@ -21,7 +22,7 @@
 			    <li role="presentation"><a href="position.html">仓位列表</a></li>
 			    <li role="presentation"><a href="storage.html">货架列表</a></li>
 			    <li role="presentation"><a href="configuration.html">配置信息</a></li>
-			    <li role="presentation" class="active"><a href="materiel.html">物料列表</a></li>
+			    <li role="presentation" class="active"><a href="materiel.html"><span class="fa fa-arrow-right"></span> 物料列表</a></li>
 			</ul>
 		</div>
 
@@ -37,7 +38,7 @@
 					</form>
 				</div>
 				<div class="operation">
-					<button type="button" class="btn btn-success">新增</button>
+					<!-- <button type="button" class="btn btn-success">新增</button> -->
 				</div>
 			</div>
 
@@ -45,20 +46,14 @@
 				<table class="table">
 				 	<thead>
 				 		<tr>
-				 			<th>名称</th>
-				 			<th>类型</th>
-				 			<th>管理员</th>
-				 			<th>联系电话</th>
+				 			<th>物料名称</th>
+				 			<th>物料模型</th>
+				 			<th>物料规格</th>
 				 		</tr>
 				 	</thead>
 
 				 	<tbody>
-				 		<tr>
-				 			<td>dwdw</td>
-				 			<td>dwdw</td>
-				 			<td>dwdw</td>
-				 			<td>dwdw</td>
-				 		</tr>
+				
 				 	</tbody>
 				</table>
 				<div  id="page1" align="right" style="margin-bottom:20px;margin-top:30px;">
@@ -67,11 +62,13 @@
 		</div>
 		
 		
+		
 	</div>
 
 	<script src="js/jquery.min.js"></script>
 	<script src="plugins/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 	<script src="plugins/laypage/laypage.js"></script>
+	<script src="js/publicDom.js"></script>
 	<script src="js/materiel.js"></script>
 </body>
 </html>

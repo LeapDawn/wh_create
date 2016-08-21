@@ -513,7 +513,6 @@ let bindEvent = function () {
 		$('.content-main-add input,.content-main-add textarea').prop('readonly', false);
 		$('#warehouseName,#positionsName,#maName,#maModel,#maSpec,#shelfName').prop('readonly', true);
 		$('#selectBtn,#selectBtn-ma').prop('disabled', false);
-		
 		$('#modifyBtn').hide();
 		$('#saveBtn').show();
 	});

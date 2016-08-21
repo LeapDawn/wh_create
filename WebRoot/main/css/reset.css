@@ -7,8 +7,9 @@
 
 
 .header{
-	height:80px;
-	border:1px solid #aaa;
+	height:79px;
+	border:1px solid #ddd;
+	background: url('../img/header.png');
 }
 
 .content{
