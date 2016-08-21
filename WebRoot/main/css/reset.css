@@ -35,7 +35,8 @@
 
 .content .content-main .tools .drop-select,
 .content .content-main .tools .drop-select-1,
-.content .content-main .tools .drop-select-2
+.content .content-main .tools .drop-select-2,
+.content .content-main .tools .drop-select-3
 {
 	float: left;
 	margin-right: 10px;
@@ -85,9 +86,12 @@
 	text-align: center;
 }
 
-.tableInsert_1 th,.tableInsert_1 td{
+.tableInsert_1 th,.tableInsert_1 td,
+.tableInsert_2 th,.tableInsert_2 td,
+.tableInsert_3 th,.tableInsert_3 td{
 	text-align: center;
 }
+
 
 .clear{clear:both; height: 0; line-height: 0; font-size: 0}
 
