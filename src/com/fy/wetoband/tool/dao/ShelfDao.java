@@ -226,7 +226,7 @@ public class ShelfDao {
 //		return list(conn, "N", null, null, page, rows);
 //	}
 	
-	public int count(Connection conn, String discard, String po_id, String wh_id) throws SQLException {
+	public int count(Connection conn, String shName, String discard, String po_id, String wh_id) throws SQLException {
 		String sql = "select count(s.shelf_id) from wh_shelf s "
 				+ " left join wh_positions p on s.po_id = p.po_id "
 				+ " where 1=1 ";
@@ -243,6 +243,10 @@ public class ShelfDao {
 		if (wh_id != null && !wh_id.equals("")) {
 			sql +=" and p.wh_id like '" + wh_id + "'";
 		}
+		if (shName != null && !shName.equals("")) {
+			sql +=" and s.shelf_description like '%" + shName +"%' ";
+		}
+		
 		PreparedStatement pt = conn.prepareStatement(sql);
 		ResultSet rs = pt.executeQuery();
 		int count = 0;
@@ -258,11 +262,11 @@ public class ShelfDao {
 		return count;
 	}
 
-	public int countCard(Connection conn, String po_id) throws SQLException {
-		return count(conn, "N", po_id, null);
+	public int countCard(Connection conn, String shName, String po_id) throws SQLException {
+		return count(conn, shName, "N", po_id, null);
 	}
 	
 	public int countCard(Connection conn) throws SQLException {
-		return count(conn, "N", null, null);
+		return count(conn, null, "N", null, null);
 	}
 }

@@ -118,7 +118,7 @@ public class ShelfService {
 	public PageModel listByPo(String shName, String poID, int currentPage, int rows) throws ToolException {
 		
 		try {
-			int total = shdao.countCard(conn, poID);
+			int total = shdao.countCard(conn, shName, poID);
 			PageModel pageModel = new PageModel(total, rows, currentPage);
 			List<Shelf> list = shdao.listCard(conn, shName, poID, pageModel.getCurrentPage(), pageModel.getRows());
 			List<PShelf> plist = new ArrayList<PShelf>();

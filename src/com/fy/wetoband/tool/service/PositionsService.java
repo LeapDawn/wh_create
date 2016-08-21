@@ -115,7 +115,7 @@ public class PositionsService {
 	 */
 	public PageModel listByWh(String poName, String whID, int currentPage, int rows) throws ToolException{
 		try {
-			int total = podao.countCard(conn, whID);
+			int total = podao.countCard(conn, poName, whID);
 			PageModel pageModel = new PageModel(total, rows, currentPage);
 			List<Positions> list = podao.listCard(conn, poName, whID, pageModel.getCurrentPage(), pageModel.getRows());
 			List<PPositions> plist = new ArrayList<PPositions>();

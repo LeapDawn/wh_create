@@ -262,13 +262,16 @@ public class WarehouseDao {
 	 * @return
 	 * @throws SQLException 
 	 */
-	public int count(Connection conn,String discard) throws SQLException {
-		String sql = "select count(wh_id) from wh_warehouse ";
+	public int count(Connection conn,String whName,String discard) throws SQLException {
+		String sql = "select count(wh_id) from wh_warehouse where 1=1 ";
+		if (whName != null && !"".equals(whName) ){
+			sql +=" and wh_name like '%" + whName + "%' ";
+		}
 		if (discard != null ){
 			if (discard.toUpperCase().equals("Y")) {
-				sql +=" where wh_discard = 1 ";
+				sql +=" and wh_discard = 1 ";
 			} else {
-				sql +=" where wh_discard = 0 or wh_discard is null ";
+				sql +=" and (wh_discard = 0 or wh_discard is null) ";
 			}
 		}
 		PreparedStatement pt = conn.prepareStatement(sql);
@@ -287,7 +290,11 @@ public class WarehouseDao {
 	}
 	
 	public int countCard(Connection conn) throws SQLException {
-		return count(conn, "N");
+		return count(conn, null, "N");
+	}
+	
+	public int countCard(Connection conn,String whName) throws SQLException {
+		return count(conn, whName, "N");
 	}
 	
 	// 获取仓库保管员的ID

@@ -124,7 +124,7 @@ public class WarehouseService{
 	 */
 	public PageModel list(String whName, int currentPage, int rows) throws ToolException{
 		try {
-			int total = whdao.countCard(conn);
+			int total = whdao.countCard(conn, whName);
 			PageModel pageModel = new PageModel(total, rows, currentPage);
 			List<Warehouse> list = whdao.listCard(conn, whName ,pageModel.getCurrentPage(), pageModel.getRows());
 			List<PWareHouse> plist = new ArrayList<PWareHouse>();
