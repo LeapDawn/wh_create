@@ -21,13 +21,42 @@ var M_table = {
 }
 
 M_table.init = function () {
+	var newURL = M_table.url + 'toolAction=warehouseSelect';
+	var param = {
 
+	}
+
+	publicDom.getData('post',newURL,param,function(JsonData){
+		if(JsonData.state == true){
+			console.log(JsonData.value);
+			$('.drop-select ul').empty();
+
+			var liItem1 = '<li data-id=""><a href="#">(所有仓库)</a></li>\
+							<li role="separator" class="divider"></li>';
+			$('.drop-select ul').append(liItem1);
+
+			for( var i = 0; i < JsonData.value.length ; i++ ){
+				var liItem = '<li data-id="'+JsonData.value[i].whId+'"><a href="#">'+ JsonData.value[i].whName +'</a></li>';
+				$('.drop-select ul').append(liItem);
+			}
+
+			$('.drop-select ul li').click(function() {
+				var text = $(this).text();
+				$('.drop-select button').data('id',$(this).data('id'));
+				$('.drop-select button').html(text+' <span class="caret"></span>');
+				M_table.getList();
+			});
+
+		}else{
+		}
+	})
 }
 
 M_table.getList = function (curr) {
 	var newURL = M_table.url + 'toolAction=listPosition';
 
 	var param = {
+		warehouseId : $('.drop-select button').data('id'),
 		poName : $('#filter').val() || '',
 		currentPage: curr || 1,
 		rows: 12
@@ -278,6 +307,8 @@ let bindEvent = function () {
 		$('#warehouseName').val(M_table.selectObj.name);
 		$('.cancel').trigger('click');
 	})
+
+
 
 }
 

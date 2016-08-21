@@ -4,9 +4,7 @@
 	font-family: 'Microsoft Yahei';
 }
 
-li{
-	float: left;
-}
+
 
 .header{
 	height:80px;
@@ -33,6 +31,11 @@ li{
 	float: left;
 	padding-left: 40px;
 
+}
+
+.content .content-main .tools .drop-select{
+	float: left;
+	margin-right: 10px;
 }
 
 .content .content-main .tools .search{
