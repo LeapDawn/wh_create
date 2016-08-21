@@ -5,7 +5,7 @@ $(function(){
 })
 
 var M_table = {
-	url:'http://192.168.253.215:8080/wh_create/actRunTool?',
+	url:publicDom.config.url,
 	currentId:-1,
 	status:0,//1新增，2更新
 	init:function(){},

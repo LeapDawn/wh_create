@@ -3,7 +3,7 @@ var publicDom = {
 	//配置项
 	config:{
 		rootUrl: "",
-		url: "" // 请求接口的url
+		url: "http://192.168.253.215:8080/wh_create/actRunTool?" // 请求接口的url
 	},
 
 	getData: function(type, url, param, f, isAsync, err) {

@@ -71,6 +71,14 @@ li{
 	margin-bottom: 20px;
 }
 
+.tableInsert{
+
+}
+
+.tableInsert th,.tableInsert td{
+	text-align: center;
+}
+
 .clear{clear:both; height: 0; line-height: 0; font-size: 0}
 
 
