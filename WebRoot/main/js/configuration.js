@@ -27,6 +27,7 @@ var M_table = {
 }
 
 M_table.init = function () {
+
 	var newURL = M_table.url + 'toolAction=warehouseSelect';
 	var newURL_po = M_table.url + 'toolAction=listPosition';
 	var newURL_sh = M_table.url + 'toolAction=listShelf';
@@ -259,20 +260,20 @@ M_table.saveInfo = function () {
 }
 
 M_table.updateInfo = function() {
-	var newURL = M_table.url + 'toolAction=updateMaterielConfig';
-	var param = {
-		cmId : $('#maName').data('id'),
-		cmRemark : $('#cmRemark').val()
-	}
-	console.log(param);
+	// var newURL = M_table.url + 'toolAction=updateMaterielConfig';
+	// var param = {
+	// 	cmId : $('#maName').data('id'),
+	// 	cmRemark : $('#cmRemark').val()
+	// }
+	// console.log(param);
 
-	publicDom.getData('post',newURL,param,function(data){
-		if(data.state==true){
-			M_table.showConfirmModal('成功','success','修改成功！');
-		}else{
-			M_table.showConfirmModal('错误','success','修改失败！');
-		}
-	})
+	// publicDom.getData('post',newURL,param,function(data){
+	// 	if(data.state==true){
+	// 		M_table.showConfirmModal('成功','success','修改成功！');
+	// 	}else{
+	// 		M_table.showConfirmModal('错误','success','修改失败！');
+	// 	}
+	// })
 }
 
 M_table.deleteInfo = function() {
@@ -380,7 +381,7 @@ M_table.getFatherTable_po = function(curr){
 				skip:false,
 				jump : function(obj,first){
 					if(!first){
-						M_table.getFatherTable(obj.curr);	
+						M_table.getFatherTable_po(obj.curr);	
 					}
 				}
 			})
@@ -394,13 +395,14 @@ M_table.getFatherTable_po = function(curr){
 M_table.getFatherTable_sh = function(curr){
 	var newURL = M_table.url + 'toolAction=listShelf';
 	var param = {
-		positionsId : $('#positionsName').data('id'),
+		positionsId : $('#positionsName').data('id') || '',
 		currentPage : curr || 1,
 		rows : 6
 	}
 	publicDom.getData('post',newURL,param,function(data){
 		if(data.state==true){
-			$('.tableInsert_1 tbody').empty();
+			$('.tableInsert_2 tbody').empty();
+			console.log(data.value.data.length,data.value.data[0].shName);
 			for(var i=0;i<data.value.data.length;i++){
 				var tableItem = '<tr>' +
 									'<td><input name="selectRadio" type="radio" value="" data-id="' +  data.value.data[i].shId + '" style=""></td>' +
@@ -408,7 +410,7 @@ M_table.getFatherTable_sh = function(curr){
 									'<td data-id="'+data.value.data[i].warehouseId+'">' + data.value.data[i].warehouseName + '</td>' +
 									'<td data-id="'+data.value.data[i].positionsId+'">' + data.value.data[i].positionsName + '</td>' +
 								 '</tr>'
-				$('.tableInsert_1 tbody').append(tableItem);
+				$('.tableInsert_2 tbody').append(tableItem);
 			}
 
 			$('.tableInsert_2 input[name="selectRadio"]').click(function() {
@@ -430,7 +432,7 @@ M_table.getFatherTable_sh = function(curr){
 				skip:false,
 				jump : function(obj,first){
 					if(!first){
-						M_table.getFatherTable_po(obj.curr);	
+						M_table.getFatherTable_sh(obj.curr);	
 					}
 				}
 			})
@@ -445,7 +447,7 @@ M_table.getSonMaterial = function(curr) {
 	var newURL = M_table.url + 'toolAction=listMateriel';
 	var param = {
 		shelfId : $('#shelfName').data('id'),
-		maName : '',
+		maName : $('#filter_ma').val() || '',
 		currentPage : curr || 1,
 		rows : 7
 	}
@@ -509,8 +511,9 @@ let bindEvent = function () {
 	$('#modifyBtn').click(function() {
 		M_table.status = 2;
 		$('.content-main-add input,.content-main-add textarea').prop('readonly', false);
-		$('#warehouseName,#positionsName').prop('readonly', true);
+		$('#warehouseName,#positionsName,#maName,#maModel,#maSpec,#shelfName').prop('readonly', true);
 		$('#selectBtn,#selectBtn-ma').prop('disabled', false);
+		
 		$('#modifyBtn').hide();
 		$('#saveBtn').show();
 	});
@@ -549,6 +552,10 @@ let bindEvent = function () {
 		  M_table.getList();
 	});
 
+	$('#filter_ma').on('keyup', function() {
+		  M_table.getSonMaterial();
+	});
+
 	$('#selectBtn').click(function() {
 		M_table.getFatherTable();
 	});
@@ -558,7 +565,7 @@ let bindEvent = function () {
 	});
 
 	$('#selectBtn-sh').click(function() {
-		M_table.getFatherTable_po();
+		M_table.getFatherTable_sh();
 	});
 
 	$('#selectBtn-ma').click(function() {
@@ -568,8 +575,12 @@ let bindEvent = function () {
 	$('.confirmSelect').click(function(){
 		$('#warehouseName').data('id',M_table.selectObj.id);
 		$('#warehouseName').val(M_table.selectObj.name);
+		M_table.selectObj_po = {};
+		M_table.selectObj_sh = {};
+
 		$('.cancel').trigger('click');
 		$('#positionsName').val("");
+		$('#shelfName').val("");
 
 		if($('#warehouseName').val()!=''){
 			$('#selectBtn-po').prop('disabled', false);
@@ -579,10 +590,13 @@ let bindEvent = function () {
 	$('.confirmSelect_1').click(function(){
 		$('#positionsName').data('id',M_table.selectObj_po.id);
 		$('#positionsName').val(M_table.selectObj_po.name);
+		M_table.selectObj_sh = {};
+
 		$('.cancel').trigger('click');
+		$('#shelfName').val("");
 
 		if($('#positionsName').val()!=''){
-			$('#selectBtn-po').prop('disabled', false);
+			$('#selectBtn-sh').prop('disabled', false);
 		}
 	})
 
@@ -591,13 +605,10 @@ let bindEvent = function () {
 		$('#shelfName').val(M_table.selectObj_sh.name);
 		$('.cancel').trigger('click');
 
-		if($('#shelfName').val()!=''){
-			$('#selectBtn-sh').prop('disabled', false);
-		}
 	})
 
 	$('.confirmSelect_3').click(function(){
-		$('#maName').data('id',M_table.selectObj_ma.id);
+		// $('#maName').data('id',M_table.selectObj_ma.id);
 		$('#maName').val(M_table.selectObj_ma.name);
 		$('#maModel').val(M_table.selectObj_ma.model);
 		$('#maSpec').val(M_table.selectObj_ma.spec);
