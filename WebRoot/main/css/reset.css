@@ -16,7 +16,9 @@ li{
 .content{
 	width: 98%;
 	margin: 0 auto;
-	padding:20px;
+	padding-top:20px;
+	padding-left:20px;
+	padding-right:40px;
 }
 
 .content .content-nav{
@@ -29,7 +31,7 @@ li{
 .content .content-main{
 	width:84%;
 	float: left;
-	padding-left: 26px;
+	padding-left: 40px;
 
 }
 
@@ -50,16 +52,23 @@ li{
 
 }
 
+
+
 .content .content-main-add{
 	width:84%;
 	float: left;
-	padding-left: 26px;
+	padding-left: 40px;
 	height: 300px;
 }
 
 .content .content-main-add .panel-body{
-	padding-top: 34px;
+	padding-top: 12px;
 	padding-bottom: 34px;
+}
+
+.content .content-main-add .form-group{
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
 
 .clear{clear:both; height: 0; line-height: 0; font-size: 0}

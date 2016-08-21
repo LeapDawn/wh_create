@@ -38,7 +38,7 @@
 					</form>
 				</div>
 				<div class="operation">
-					<button type="button" class="btn btn-success"><span class="fa fa-plus"></span> 新增仓库</button>
+					<button type="button" class="btn btn-success" id="addBtn"><span class="fa fa-plus"></span> 新增仓库</button>
 				</div>
 			</div>
 
@@ -67,56 +67,60 @@
 
 		<div class="content-main-add" style="display:none;">
 			<div class="panel panel-default">		
-				<div class="panel-heading">仓库x详情</div>
+				<div class="panel-heading">
+					仓库x详情
+					<!-- <a href="##" class="pull-right" ><span class="fa fa-times text-danger" style="font-size:20px;"></span></a> -->
+				</div>
 				<div class="panel-body">
 			      	  <form class="form-horizontal">
 			      	  	<div class="form-group">
-			    	  	  	  <label for="" class="col-sm-2 control-label" style="font-weight:normal;">仓库名称</label>
-			    	  	  	  <div class="col-sm-3">
+			    	  	  	  <label for="" class="col-md-2 control-label" style="font-weight:normal;">仓库名称</label>
+			    	  	  	  <div class="col-md-4">
 			    	  	  	    <input type="text" class="form-control" id="whName" readonly>
 			    	  	  	  </div>
 			    	  	  	
 
-			    	  	  	  <label for="" class="col-sm-2 control-label" style="font-weight:normal;">仓库类型</label>
-			    	  	  	  <div class="col-sm-3">
+			    	  	  	  <label for="" class="col-md-2 control-label" style="font-weight:normal;">仓库类型</label>
+			    	  	  	  <div class="col-md-3">
 			    	  	  	    <input type="text" class="form-control" id="whType" readonly>
 			    	  	  	  </div>
 			      	  	</div>
 
 			      	  	<div class="form-group">
-			    	  	  	  <label for="" class="col-sm-2 control-label" style="font-weight:normal;">保管人</label>
-			    	  	  	  <div class="col-sm-3">
+			    	  	  	  <label for="" class="col-md-2 control-label" style="font-weight:normal;">保管人</label>
+			    	  	  	  <div class="col-md-3">
 			    	  	  	    <input type="text" class="form-control" id="personName" readonly>
 			    	  	  	  </div>
 			    	  	  	
 
-			    	  	  	  <label for="" class="col-sm-2 control-label" style="font-weight:normal;">电话号码</label>
-			    	  	  	  <div class="col-sm-3">
+			    	  	  	  <label for="" class="col-md-2 col-md-offset-1 control-label" style="font-weight:normal;">电话号码</label>
+			    	  	  	  <div class="col-md-3">
 			    	  	  	    <input type="text" class="form-control" id="whTel" readonly>
 			    	  	  	  </div>
 			      	  	</div>
 
 			      	  	<div class="form-group">
-			    	  	  	  <label for="" class="col-sm-2 control-label" style="font-weight:normal;">仓库地址</label>
-			    	  	  	  <div class="col-sm-6">
-			    	  	  	    <input type="text" class="form-control" id="personName" readonly>
+			    	  	  	  <label for="" class="col-md-2 control-label" style="font-weight:normal;">仓库地址</label>
+			    	  	  	  <div class="col-md-7">
+			    	  	  	    <input type="text" class="form-control" id="address" readonly>
 			    	  	  	  </div>
 			      	  	</div>
 
 			      	  	<div class="form-group">
-			    	  	  	  <label for="" class="col-sm-2 control-label" style="font-weight:normal;">备注</label>
-			    	  	  	  <div class="col-sm-6">
-			    	  	  	    <textarea type="text" class="form-control" id="whRemark" readonly></textarea>
+			    	  	  	  <label for="" class="col-md-2 control-label" style="font-weight:normal;">备注</label>
+			    	  	  	  <div class="col-md-7">
+			    	  	  	    <textarea type="text" class="form-control" id="whRemark" rows="4" readonly></textarea>
 			    	  	  	  </div>
 			      	  	</div>
 			      	  </form>
 
 				</div>
-				<div class="panel-footer" style="clear:both;">
+				<div class="panel-footer">
 					<div style="float:right;">
-						<button type="button" class="btn btn-primary" id="ensureAdd" style="display:none;margin-right:10px;">保存</button>
-						<button type="button" class="btn btn-primary" id="ensureModify" style="margin-left:10px;">修改</button>
-						<button type="button" class="btn btn-default" id="prevPage" style="margin-left:10px;">返回列表</button>
+						<button type="button" class="btn btn-primary" id="saveBtn" style="display:none;">保存</button>
+						<button type="button" class="btn btn-primary" id="modifyBtn" style="margin-left:10px;">修改</button>
+						<button type="button" class="btn btn-danger" id="deleteBtn" style="display:none;margin-left:10px;">删除</button>
+						<button type="button" class="btn btn-default" id="prevPage" style="margin-left:10px;margin-right:80px;">返回列表</button>
 					</div>
 					<div class="clear">
 						

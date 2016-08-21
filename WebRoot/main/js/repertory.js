@@ -7,23 +7,26 @@ $(function(){
 var M_table = {
 	url:'http://192.168.253.215:8080/wh_create/actRunTool?',
 	currentId:-1,
+	status:0,//1新增，2更新
 	init:function(){},
 	getList:function(curr){},
 	createList:function(JsonData){},
 	showConfirmModal:function(){},
-	getDetailInfo:function(){}
+	getDetailInfo:function(){},
+	saveInfo:function(){},
+	updateInfo:function(){},
+	deleteInfo:function(){},
 }
 
 M_table.init = function () {
 
-
-		
 }
 
 M_table.getList = function (curr) {
 	var newURL = M_table.url + 'toolAction=listWarehouse';
 
 	var param = {
+		whName : $('#filter').val() || '',
 		currentPage: curr || 1,
 		rows: 12
 	}
@@ -53,6 +56,7 @@ M_table.getList = function (curr) {
 				$(this).addClass('bg-info').siblings().removeClass('bg-info');
 				$('.content-main').hide();
 				$('.content-main-add').show();
+				$('#deleteBtn').show();
 				M_table.currentId = $(this).data('id');
 
 				M_table.getDetailInfo();
@@ -71,7 +75,25 @@ M_table.getList = function (curr) {
 }
 
 M_table.getDetailInfo = function(){
+	var newURL = M_table.url + 'toolAction=getWarehouse';
+	var param = {
+		whId: M_table.currentId
+	}
 
+	publicDom.getData('post',newURL,param,function(JsonData){
+		if(JsonData.state == true){
+			console.log(JsonData.value);
+			$('#whName').data('id',JsonData.value.whId);
+			$('#whName').val(JsonData.value.whName);
+			$('#address').val(JsonData.value.address);
+			$('#personName').val(JsonData.value.personName);
+			$('#whRemark').val(JsonData.value.whRemark);
+			$('#whTel').val(JsonData.value.whTel);
+			$('#whType').val(JsonData.value.whType);
+		}else{
+			M_table.showConfirmModal('错误','success','获取仓库详情失败！')
+		}
+	})
 }
 
 M_table.createList = function (list) {
@@ -91,9 +113,118 @@ M_table.createList = function (list) {
 
 }
 
+M_table.saveInfo = function () {
+	var newURL = M_table.url + 'toolAction=addWarehouse';
+	var param = {
+		whName : $('#whName').val(),
+		whType : $('#whType').val(),
+		whTel : $('#whTel').val(),
+		personName : $('#personName').val(),
+		address : $('#address').val(),
+		whRemark : $('#whRemark').val()
+	}
+
+	publicDom.getData('post',newURL,param,function(data){
+		if(data.state==true){
+			M_table.showConfirmModal('成功','success','保存成功！')
+		}else{
+			M_table.showConfirmModal('错误','success','保存失败！')
+		}
+	})
+}
+
+M_table.updateInfo = function() {
+	var newURL = M_table.url + 'toolAction=updateWarehouse';
+	var param = {
+		whId : $('#whName').data('id'),
+		whName : $('#whName').val(),
+		whType : $('#whType').val(),
+		whTel : $('#whTel').val(),
+		personName : $('#personName').val(),
+		address : $('#address').val(),
+		whRemark : $('#whRemark').val()
+	}
+
+	publicDom.getData('post',newURL,param,function(data){
+		if(data.state==true){
+			M_table.showConfirmModal('成功','success','修改成功！');
+		}else{
+			M_table.showConfirmModal('错误','success','修改失败！');
+		}
+	})
+}
+
+M_table.deleteInfo = function() {
+	var newURL = M_table.url + 'toolAction=deleteWarehouse';
+	var param = {
+		whId : $('#whName').data('id')
+	}
+	publicDom.getData('post',newURL,param,function(data){
+		if(data.state==true){
+			M_table.showConfirmModal('成功','success','删除成功！');
+			$('.confirm').click(function() {
+				location.reload();
+			});
+		}else{
+			M_table.showConfirmModal('错误','success','删除失败！');
+		}
+	})
+}
+
 
 let bindEvent = function () {
+	$('#addBtn').click(function() {
+		M_table.status = 1;
+		$('.content-main').hide();
+		$('.content-main-add').show();
+		$('.content-main-add input,.content-main-add textarea').prop('readonly', false);
+		$('#modifyBtn').hide();
+		$('#saveBtn').show();
+	});
 
+	$('#modifyBtn').click(function() {
+		M_table.status = 2;
+		$('.content-main-add input,.content-main-add textarea').prop('readonly', false);
+		$('#modifyBtn').hide();
+		$('#saveBtn').show();
+	});
+
+	$('#saveBtn').click(function() {
+		if(M_table.status == 1){
+			M_table.saveInfo();
+		}else if(M_table.status == 2){
+			M_table.updateInfo();
+		}else{
+			M_table.showConfirmModal('错误','success','发生了问题需要从头操作！')
+		}
+		
+	});
+
+	$('#deleteBtn').click(function() {
+		M_table.showConfirmModal('警告','delete','是否确定删除？');
+		$('.deleteConfirm').click(function() {
+			M_table.deleteInfo();
+		});
+
+	});
+
+
+	$('#prevPage').click(function() {
+		$('.content-main').show();
+		$('.content-main-add').hide();
+		$('.bg-info').removeClass('bg-info');
+	});
+
+	$('#search').click(function() {
+		M_table.getList();
+	});
+
+	$('#filter').on('keydown', function(event) {
+		event.preventDefault();
+		if(event.keyCode==13){
+		   M_table.getList();
+		}
+	});
 
 }
 
