@@ -33,7 +33,10 @@
 
 }
 
-.content .content-main .tools .drop-select{
+.content .content-main .tools .drop-select,
+.content .content-main .tools .drop-select-1,
+.content .content-main .tools .drop-select-2
+{
 	float: left;
 	margin-right: 10px;
 }
@@ -79,6 +82,10 @@
 }
 
 .tableInsert th,.tableInsert td{
+	text-align: center;
+}
+
+.tableInsert_1 th,.tableInsert_1 td{
 	text-align: center;
 }
 
