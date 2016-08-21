@@ -76,7 +76,7 @@ M_table.createList = function (list) {
 
 
 
-let bindEvent = function () {
+var bindEvent = function () {
 
 
 	$('#search').click(function() {

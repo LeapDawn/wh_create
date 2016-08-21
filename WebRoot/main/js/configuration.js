@@ -496,7 +496,7 @@ M_table.getSonMaterial = function(curr) {
 	})
 }
 
-let bindEvent = function () {
+var bindEvent = function () {
 	$('#addBtn').click(function() {
 		M_table.status = 1;
 		$('.content-main').hide();
