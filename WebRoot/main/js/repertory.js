@@ -219,11 +219,8 @@ let bindEvent = function () {
 		M_table.getList();
 	});
 
-	$('#filter').on('keydown', function(event) {
-		event.preventDefault();
-		if(event.keyCode==13){
+	$('#filter').on('keyup', function() {
 		   M_table.getList();
-		}
 	});
 
 }

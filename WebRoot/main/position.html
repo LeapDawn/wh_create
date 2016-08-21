@@ -5,6 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title></title>
 	<link rel="stylesheet" href="plugins/bootstrap-3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/font-awesome.css">
 	<link rel="stylesheet" href="css/reset.css">
 	<link rel="stylesheet" href="css/position.css">
 </head>
@@ -18,7 +19,7 @@
 		<div class="content-nav" style="min-height:516px;">
 			<ul class="nav nav-pills nav-stacked">
 			  	<li role="presentation"><a href="index.html">仓库列表</a></li>
-			    <li role="presentation" class="active"><a href="position.html">仓位列表</a></li>
+			    <li role="presentation" class="active"><a href="position.html"><span class="fa fa-arrow-right"></span> 仓位列表</a></li>
 			    <li role="presentation"><a href="storage.html">货架列表</a></li>
 			    <li role="presentation"><a href="configuration.html">配置信息</a></li>
 			    <li role="presentation"><a href="materiel.html">物料列表</a></li>
@@ -37,7 +38,7 @@
 					</form>
 				</div>
 				<div class="operation">
-					<button type="button" class="btn btn-success">新增</button>
+					<button type="button" class="btn btn-success" id="addBtn"><span class="fa fa-plus"></span> 新增仓位</button>
 				</div>
 			</div>
 
@@ -54,10 +55,6 @@
 
 				 	<tbody>
 				 		<tr>
-				 			<td>dwdw</td>
-				 			<td>dwdw</td>
-				 			<td>dwdw</td>
-				 			<td>dwdw</td>
 				 		</tr>
 				 	</tbody>
 				</table>
@@ -72,6 +69,7 @@
 	<script src="js/jquery.min.js"></script>
 	<script src="plugins/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 	<script src="plugins/laypage/laypage.js"></script>
+	<script src="js/publicDom.js"></script>
 	<script src="js/position.js"></script>
 </body>
 </html>
