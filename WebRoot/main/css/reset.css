@@ -1,0 +1,99 @@
+*{
+	margin:0;
+	text-decoration: none;
+	font-family: 'Microsoft Yahei';
+}
+
+
+
+.header{
+	height:79px;
+	border:1px solid #ddd;
+	background: url('../img/header.png');
+}
+
+.content{
+	width: 98%;
+	margin: 0 auto;
+	padding-top:20px;
+	padding-left:20px;
+	padding-right:40px;
+}
+
+.content .content-nav{
+	width:16%;
+	float: left;
+	padding-right: 20px;
+	border-right: 1px solid #eee;
+}
+
+.content .content-main{
+	width:84%;
+	float: left;
+	padding-left: 40px;
+
+}
+
+.content .content-main .tools .drop-select,
+.content .content-main .tools .drop-select-1,
+.content .content-main .tools .drop-select-2,
+.content .content-main .tools .drop-select-3
+{
+	float: left;
+	margin-right: 10px;
+}
+
+.content .content-main .tools .search{
+	float: left;
+}
+
+.content .content-main .tools .operation{
+	float: right;
+}
+
+.content .content-main .tableDIV{
+	margin-top: 60px;
+}
+
+.content .content-main .tableDIV th,.content .content-main .tableDIV td{
+	text-align: center;
+
+}
+
+
+
+.content .content-main-add{
+	width:84%;
+	float: left;
+	padding-left: 40px;
+	height: 300px;
+}
+
+.content .content-main-add .panel-body{
+	padding-top: 12px;
+	padding-bottom: 34px;
+}
+
+.content .content-main-add .form-group{
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.tableInsert{
+
+}
+
+.tableInsert th,.tableInsert td{
+	text-align: center;
+}
+
+.tableInsert_1 th,.tableInsert_1 td,
+.tableInsert_2 th,.tableInsert_2 td,
+.tableInsert_3 th,.tableInsert_3 td{
+	text-align: center;
+}
+
+
+.clear{clear:both; height: 0; line-height: 0; font-size: 0}
+
+
