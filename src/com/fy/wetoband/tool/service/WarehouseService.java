@@ -9,6 +9,9 @@ import org.springframework.beans.BeanUtils;
 
 import com.fy.wetoband.tool.commons.IDGenerator;
 import com.fy.wetoband.tool.commons.ToolException;
+import com.fy.wetoband.tool.dao.MaterielCongfigDao;
+import com.fy.wetoband.tool.dao.PositionsDao;
+import com.fy.wetoband.tool.dao.ShelfDao;
 import com.fy.wetoband.tool.dao.WarehouseDao;
 import com.fy.wetoband.tool.dto.PWareHouse;
 import com.fy.wetoband.tool.dto.PageModel;
@@ -17,6 +20,10 @@ import com.fy.wetoband.tool.entity.Warehouse;
 public class WarehouseService{
 	
 	private WarehouseDao whdao = new WarehouseDao();
+	private PositionsDao podao = new PositionsDao();
+	private ShelfDao shdao = new ShelfDao();
+	private MaterielCongfigDao cmdao = new MaterielCongfigDao();
+	
 	private Connection conn = null;
 
 	public WarehouseService() {
@@ -78,19 +85,43 @@ public class WarehouseService{
 	}
 	
 	/**
-	 * 根据ID删除仓库
+	 * 根据ID删除仓库(级联)
 	 * @param whID  仓库ID
 	 * @return
 	 * @throws ToolException
 	 */
 	public boolean deleteWareHouse(String whID) throws ToolException{
 		boolean success = false;
+		boolean hasToolException = false;
 		try {
-			success = whdao.delete(conn, whID);
+			conn.setAutoCommit(false);
+			whdao.delete(conn, whID);
+			podao.deleteBySuper(conn, whID);
+			shdao.deleteBySuper(conn, whID, null);
+			cmdao.deleteBysuper(conn, whID, null, null);
+			conn.commit();
+			success = true;
+			conn.setAutoCommit(true);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			hasToolException = true;
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			try {
+				conn.setAutoCommit(true);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		if (hasToolException) {
 			throw new ToolException("指定仓库废弃时发生异常");
 		}
+		
 		return success;
 	}
 	

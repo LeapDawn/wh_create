@@ -69,6 +69,19 @@ public class PositionsDao {
 		return true;
 	}
 	
+	public boolean deleteBySuper(Connection conn, String whId) throws SQLException {
+		String sql = "update wh_positions p set p.po_discard = 'Y' where p.wh_id like '" + whId + "'";
+		PreparedStatement pt = conn.prepareStatement(sql);
+		int rs = pt.executeUpdate();
+		if (pt != null) {
+			pt.close();
+		}
+		if (rs == 0) {
+			return false;
+		}
+		return true;
+	}
+	
 	public Positions findById(Connection conn, String id) throws SQLException {
 		String sql = "select p.po_name, p.po_remark, p.po_discard, p.wh_id, w.wh_name from wh_positions p left join "
 				+ " wh_warehouse w on p.wh_id = w.wh_id where p.po_id like '" + id + "';";

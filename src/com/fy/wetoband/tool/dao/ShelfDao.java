@@ -73,6 +73,26 @@ public class ShelfDao {
 		return true;
 	}
 	
+	public boolean deleteBySuper(Connection conn, String whId, String poId) throws SQLException {
+		String sql = "update wh_shelf s, wh_positions p set s.sh_discard = 1 where s.po_id=p.po_id ";
+		if (whId != null && !whId.equals("")) {
+			sql += " and p.wh_id like '" + whId + "'";
+		}
+		if (poId != null && !poId.equals("")) {
+			sql += " and s.po_id like '" + poId + "'";
+		}
+		
+		PreparedStatement pt = conn.prepareStatement(sql);
+		int rs = pt.executeUpdate();
+		if (pt != null) {
+			pt.close();
+		}
+		if (rs == 0) {
+			return false;
+		}
+		return true;
+	}
+	
 	public Shelf findById(Connection conn, String id) throws SQLException {
 		String sql = "select s.shelf_description as sh_name, s.shelf_remark as sh_remark, s.sh_discard, s.po_id, p.po_name, p.wh_id, w.wh_name "
 				+ " from wh_shelf s "
