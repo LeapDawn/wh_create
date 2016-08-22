@@ -37,7 +37,6 @@ public class WarehouseDao {
 				+ "'" + (wh.getWhRemark()!=null?wh.getWhRemark():"") + "',"
 				+ "'" + (wh.getWhTel()!=null?wh.getWhTel():"") + "'"
 				+ ");";
-		System.out.println(sql);
 		PreparedStatement pt = conn.prepareStatement(sql);
 		int rs = pt.executeUpdate();
 		if (pt != null) {
@@ -92,7 +91,6 @@ public class WarehouseDao {
 		
 		String sql = str.toString();
 		
-		System.out.println(sql);
 		PreparedStatement pt = conn.prepareStatement(sql);
 		int rs = pt.executeUpdate();
 		if (pt != null) {
@@ -226,7 +224,6 @@ public class WarehouseDao {
 			}
 		}
 		sql += " limit " + (page-1)*rows + "," + rows;
-		System.out.println(sql);
 		PreparedStatement pt = conn.prepareStatement(sql);
 		ResultSet rs = pt.executeQuery();
 		List<Warehouse> list = new ArrayList<Warehouse>();
@@ -303,14 +300,12 @@ public class WarehouseDao {
 			return null;
 		}
 		String sql = "select employee_no from hr_employee where employee_name like '" + name + "';";
-		System.out.println(sql);
 		PreparedStatement pt;
 		String result = null;
 		pt = conn.prepareStatement(sql);
 		ResultSet rs = pt.executeQuery();
 		if (rs.next()) {
 			result = rs.getString("employee_no");
-			System.out.println("result : " +result);
 		}
 		if (rs!= null) {
 			rs.close();

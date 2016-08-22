@@ -83,7 +83,7 @@ public class PositionsService {
 		boolean hasToolException = false;
 		try {
 			conn.setAutoCommit(false);
-			podao.deleteBySuper(conn, poID);
+			podao.delete(conn, poID);
 			shdao.deleteBySuper(conn, null, poID);
 			cmdao.deleteBysuper(conn, null, poID, null);
 			conn.commit();

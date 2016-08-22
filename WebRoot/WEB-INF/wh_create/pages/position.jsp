@@ -21,8 +21,8 @@
 	<div class="content">
 		<div class="content-nav" style="min-height:516px;">
 			<ul class="nav nav-pills nav-stacked">
-			  	<li role="presentation" class="active"><a href="${fyForwardUrl}&forwardPage=main.jsp"><span class="fa fa-arrow-right"></span> 仓库列表</a></li>
-			    <li role="presentation"><a href="${fyForwardUrl}&forwardPage=position.jsp">仓位列表</a></li>
+			  	<li role="presentation"><a href="${fyForwardUrl}&forwardPage=main.jsp">仓库列表</a></li>
+			    <li role="presentation" class="active"><a href="${fyForwardUrl}&forwardPage=position.jsp"><span class="fa fa-arrow-right"></span> 仓位列表</a></li>
 			    <li role="presentation"><a href="${fyForwardUrl}&forwardPage=storage.jsp">货架列表</a></li>
 			    <li role="presentation"><a href="${fyForwardUrl}&forwardPage=configuration.jsp">配置信息</a></li>
 			    <li role="presentation"><a href="${fyForwardUrl}&forwardPage=materiel.jsp">物料列表</a></li>
@@ -32,16 +32,26 @@
 		<div class="content-main">
 
 			<div class="tools">
+				<div class="dropdown drop-select">
+				  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+				     选择仓库
+				    <span class="caret"></span>
+				  </button>
+				  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+				    <li><a href="#">A</a></li>
+				  </ul>
+				</div>
+
 				<div class="search">
 					<form class="form-inline">
 					  <div class="form-group">
 					    <input type="text" class="form-control" id="filter" placeholder="请输入搜索内容">
 					  </div>
-					  <button type="button" id="search" class="btn btn-primary" style="margin-left:4px;">搜索 </button>
+					  <button type="button" id="search" class="btn btn-primary" style="margin-left:4px;">搜索</button>
 					</form>
 				</div>
 				<div class="operation">
-					<button type="button" class="btn btn-success" id="addBtn"><span class="fa fa-plus"></span> 新增仓库</button>
+					<button type="button" class="btn btn-success" id="addBtn"><span class="fa fa-plus"></span> 新增仓位</button>
 				</div>
 			</div>
 
@@ -50,9 +60,8 @@
 				 	<thead>
 				 		<tr>
 				 			<th>名称</th>
-				 			<th>类型</th>
-				 			<th>管理员</th>
-				 			<th>联系电话</th>
+				 			<th>所属仓库</th>
+				 			<th>备注</th>
 				 		</tr>
 				 	</thead>
 
@@ -64,63 +73,39 @@
 				<div  id="page1" align="right" style="margin-bottom:20px;margin-top:30px;">
 				</div>
 			</div>
-
-
 		</div>
 
 		<div class="content-main-add" style="display:none;">
 			<div class="panel panel-default">		
 				<div class="panel-heading">
-					仓库详情
+					仓位详情
 					<!-- <a href="##" class="pull-right" ><span class="fa fa-times text-danger" style="font-size:20px;"></span></a> -->
 				</div>
 				<div class="panel-body">
-			      	  <form class="form-horizontal" id="modifyForm">
+			      	  <form class="form-horizontal">
 			      	  	<div class="form-group">
-			    	  	  	  <label for="whName" class="col-md-2 control-label" style="font-weight:normal;">仓库名称</label>
+			    	  	  	  <label for="" class="col-md-2 control-label" style="font-weight:normal;">仓位名称</label>
 			    	  	  	  <div class="col-md-4">
-			    	  	  	    <input type="text" class="form-control" name="whName" id="whName" readonly>
-
-			    	  	  	    <!-- <span class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span> -->
-			    	  	  	  </div>
+			    	  	  	    <input type="text" class="form-control" id="poName" readonly>
+			    	  	  	  </div>&nbsp;&nbsp;&nbsp;
 			    	  	  	  <label class="text-primary control-label font-w-bold mustInput" style="display:none;"><span class="fa fa-warning"></span> 必填</label>
-			    	  	</div>
-			    	  	  	
-			    	  	<div class="form-group">
-			    	  	  	  <label for="whType" class="col-md-2 control-label" style="font-weight:normal;">仓库类型</label>
-			    	  	  	  <div class="col-md-4">
-			    	  	  	    <input type="text" class="form-control" id="whType" name="whType" readonly>
-			    	  	  	  </div>
-			    	  	  	   <label class="text-primary control-label font-w-bold mustInput" style="display:none;"><span class="fa fa-warning"></span> 必填</label>
 			      	  	</div>
 
 			      	  	<div class="form-group">
-			    	  	  	  <label for="" class="col-md-2 control-label" style="font-weight:normal;">保管人</label>
+			    	  	  	  <label for="" class="col-md-2 control-label" style="font-weight:normal;">所属仓库</label>
 			    	  	  	  <div class="col-md-4">
-			    	  	  	    <input type="text" class="form-control" id="personName" readonly>
+			    	  	  	    <input type="text" class="form-control" id="warehouseName" data-id="" readonly> 
 			    	  	  	  </div>
-			    	  	</div>
-			    	  	  	
-			    	  	<div class="form-group">
-			    	  	  	  <label for="" class="col-md-2 control-label" style="font-weight:normal;">电话号码</label>
-			    	  	  	  <div class="col-md-4">
-			    	  	  	    <input type="text" class="form-control" id="whTel" readonly>
-			    	  	  	  </div>
-			      	  	</div>
+			    	  	  	  <button type="button" class="btn btn-primary" id="selectBtn" disabled="disabled" style="margin-left:14px;" data-toggle="modal" data-target="#myModal">选择仓库</button>&nbsp;&nbsp;&nbsp;
+			    	  	  	 <!--  <label class="text-primary control-label font-w-bold mustInput" style="display:none;"><span class="fa fa-warning"></span> 必填</label> -->
 
-			      	  	<div class="form-group">
-			    	  	  	  <label for="" class="col-md-2 control-label" style="font-weight:normal;">仓库地址</label>
-			    	  	  	  <div class="col-md-4">
-			    	  	  	    <input type="text" class="form-control" id="address" readonly>
-			    	  	  	  </div>
 			      	  	</div>
 
 			      	  	<div class="form-group">
 			    	  	  	  <label for="" class="col-md-2 control-label" style="font-weight:normal;">备注</label>
 			    	  	  	  <div class="col-md-4">
-			    	  	  	    <textarea type="text" class="form-control" id="whRemark" rows="4" readonly></textarea>
+			    	  	  	    <textarea type="text" class="form-control" id="poRemark" rows="4" readonly></textarea>
 			    	  	  	  </div>
-			    	  	  	  <div class="errorValidate"></div>
 			      	  	</div>
 			      	  </form>
 
@@ -142,12 +127,45 @@
 		
 	</div>
 
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	  <div class="modal-dialog modal-lg" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title text-primary" id="myModalLabel"><span class="fa fa-tag"></span> 请选择所属仓库：</h4>
+	      </div>
+	      <div class="modal-body repoBelong" style="padding-left:30px;padding-right:30px;">
+	        
+	      	<table class="table tableInsert">
+			 	<thead>
+			 		<tr>
+			 			<th></th>
+			 			<th>仓库名称</th>
+			 			<th>仓库类型</th>
+			 			<th>管理员</th>
+			 			<th>联系电话</th>
+			 		</tr>
+			 	</thead>
+
+			 	<tbody>
+			 	</tbody>
+			 
+			</table>
+	      </div>
+	      <div class="modal-footer">
+	     	<div  id="page2" style="margin-top:4px;float:left;position:absolute;left:40%;"></div>
+	     	<button type="button" class="btn btn-primary confirmSelect">确定</button>
+	        <button type="button" class="btn btn-default cancel" data-dismiss="modal">取消</button>
+
+	      </div>
+	    </div>
+	  </div>
+	</div>
 
 	<script src="${resourceUrl}js/jquery.min.js"></script>
 	<script src="${resourceUrl}plugins/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 	<script src="${resourceUrl}plugins/laypage/laypage.js"></script>
-	<!-- <script src="js/jquery.validate.min.js"></script> -->
 	<script src="${resourceUrl}js/publicDom.js"></script>
-	<script src="${resourceUrl}js/repertory.js"></script>
+	<script src="${resourceUrl}js/position.js"></script>
 </body>
 </html>

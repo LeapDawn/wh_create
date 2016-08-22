@@ -33,7 +33,6 @@ public class WarehouseManager extends Tool {
 
 	@Override
 	public void act(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("进入act");
 		String toolAction = request.getParameter("toolAction");
 		if (!StringUtil.checkNotNull(toolAction)){
 			this.writeResult(response, new AjaxResult<Object>(false, "请求的工具Action是什么?"));
@@ -101,7 +100,6 @@ public class WarehouseManager extends Tool {
 	 * @返回前端数据:AjaxResult(Boolean, String)
 	 */
 	private void addWareHouse(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("进入addWareHouse");
 		AjaxResult<Object> result = null;
 		// 获取数据
 		String whName = request.getParameter("whName");             
@@ -168,7 +166,6 @@ public class WarehouseManager extends Tool {
 	 * @返回前端数据:AjaxResult(Boolean, String)
 	 */
 	private void updateWareHouse(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("进入updateWareHouse");
 		AjaxResult<Object> result = null;
 		// 获取数据
 		String whId = request.getParameter("whId");
@@ -231,7 +228,6 @@ public class WarehouseManager extends Tool {
 	 * @返回前端数据:AjaxResult(Boolean, String)
 	 */
 	private void deleteWareHouse(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("进入deleteWareHouse");
 		AjaxResult<Object> result = null;
 		// 获取数据
 		String whId = request.getParameter("whId");
@@ -278,7 +274,6 @@ public class WarehouseManager extends Tool {
 	 * @返回前端数据:AjaxResult(Boolean, PPositions/String)
 	 */
 	private void getWareHouse(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("进入getWareHouse");
 		AjaxResult<Object> result = null;
 		// 获取数据
 		String whId = request.getParameter("whId");
@@ -322,7 +317,6 @@ public class WarehouseManager extends Tool {
 	 * @返回前端数据:AjaxResult(Boolean, PageModel/String)
 	 */
 	private void listWareHouse(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("进入listWareHouse");
 		AjaxResult<Object> result = null;
 		// 获取数据
 		String currentPageStr = request.getParameter("currentPage");
@@ -373,7 +367,6 @@ public class WarehouseManager extends Tool {
 	 * @返回前端数据:AjaxResult(Boolean, List/String)
 	 */
 	private void wareHouseSelect(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("进入WareHouseSelect");
 		AjaxResult<Object> result = null;
 		
 		// 执行业务
@@ -410,7 +403,6 @@ public class WarehouseManager extends Tool {
 	 * @返回前端数据:AjaxResult(Boolean, String)
 	 */
 	private void addPosition(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("进入addPosition");
 		AjaxResult<Object> result = null;
 		// 获取数据
 		String warehouseId = request.getParameter("warehouseId");             
@@ -471,7 +463,6 @@ public class WarehouseManager extends Tool {
 	 * @返回前端数据:AjaxResult(Boolean, String)
 	 */
 	private void updatePosition(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("进入updatePosition");
 		AjaxResult<Object> result = null;
 		// 获取数据
 		String poId = request.getParameter("poId");             
@@ -528,7 +519,6 @@ public class WarehouseManager extends Tool {
 	 * @返回前端数据:AjaxResult(Boolean, String)
 	 */
 	private void deletePosition(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("进入deletePosition");
 		AjaxResult<Object> result = null;
 		// 获取数据
 		String poId = request.getParameter("poId");
@@ -573,7 +563,6 @@ public class WarehouseManager extends Tool {
 	 * @返回前端数据:AjaxResult(Boolean, PPositions/String)
 	 */
 	private void getPosition(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("进入getPosition");
 		AjaxResult<Object> result = null;
 		// 获取数据
 		String poId = request.getParameter("poId");
@@ -617,7 +606,6 @@ public class WarehouseManager extends Tool {
 	 * @返回前端数据:AjaxResult(Boolean, PageModel/String)
 	 */
 	private void listPosition(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("进入listPosition");
 		AjaxResult<Object> result = null;
 		// 获取数据
 		String poName = request.getParameter("poName"); 
@@ -669,7 +657,6 @@ public class WarehouseManager extends Tool {
 	 * @返回前端数据:AjaxResult(Boolean, List/String)
 	 */
 	private void positionSelect(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("进入positionSelect");
 		AjaxResult<Object> result = null;
 		
 		String whId = request.getParameter("whId");
@@ -709,7 +696,6 @@ public class WarehouseManager extends Tool {
 	 * @返回前端数据:AjaxResult(Boolean, String)
 	 */
 	private void addShelf(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("进入addShelf");
 		AjaxResult<Object> result = null;
 		// 获取数据
 		String positionsId = request.getParameter("positionsId");             
@@ -770,7 +756,6 @@ public class WarehouseManager extends Tool {
 	 * @返回前端数据:AjaxResult(Boolean, String)
 	 */
 	private void updateShelf(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("进入updateShelf");
 		AjaxResult<Object> result = null;
 		// 获取数据
 		String shId = request.getParameter("shId");             
@@ -828,7 +813,6 @@ public class WarehouseManager extends Tool {
 	 * @返回前端数据:AjaxResult(Boolean, String)
 	 */
 	private void deleteShelf(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("进入deleteShelf");
 		AjaxResult<Object> result = null;
 		// 获取数据
 		String shId = request.getParameter("shId");
@@ -873,7 +857,6 @@ public class WarehouseManager extends Tool {
 	 * @返回前端数据:AjaxResult(Boolean, PShelf/String)
 	 */
 	private void getShelf(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("进入getShelf");
 		AjaxResult<Object> result = null;
 		// 获取数据
 		String shId = request.getParameter("shId");
@@ -917,7 +900,6 @@ public class WarehouseManager extends Tool {
 	 * @返回前端数据:AjaxResult(Boolean, PageModel/String)
 	 */
 	private void listShelf(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("进入listShelf");
 		AjaxResult<Object> result = null;
 		// 获取数据
 		String shName = request.getParameter("shName");
@@ -968,7 +950,6 @@ public class WarehouseManager extends Tool {
 	 * @返回前端数据:AjaxResult(Boolean, List/String)
 	 */
 	private void shelfSelect(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("进入positionSelect");
 		AjaxResult<Object> result = null;
 		
 		String poId = request.getParameter("poId");
@@ -1008,7 +989,6 @@ public class WarehouseManager extends Tool {
 	 * @返回前端数据:AjaxResult(Boolean, String)
 	 */
 	private void addMaterielConfig(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("进入addMaterielConfig");
 		AjaxResult<Object> result = null;
 		// 获取数据
 		String maId = request.getParameter("maId");             
@@ -1069,7 +1049,6 @@ public class WarehouseManager extends Tool {
 	 * @返回前端数据:AjaxResult(Boolean, String)
 	 */
 	private void addAnyMaterielConfig(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("进入addAnyMaterielConfig");
 		AjaxResult<Object> result = null;
 		// 获取数据
 		String maIds = request.getParameter("maIds");             
@@ -1133,7 +1112,6 @@ public class WarehouseManager extends Tool {
 	 * @返回前端数据:AjaxResult(Boolean, String)
 	 */
 	private void updateMaterielConfig(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("进入updateMaterConfing");
 		AjaxResult<Object> result = null;
 		// 获取数据
 		String cmId = request.getParameter("cmId");             
@@ -1187,7 +1165,6 @@ public class WarehouseManager extends Tool {
 	 * @返回前端数据:AjaxResult(Boolean, String)
 	 */
 	private void deleteMaterielConfig(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("进入deleteMaterConfing");
 		AjaxResult<Object> result = null;
 		// 获取数据
 		String cmId = request.getParameter("cmId");
@@ -1233,7 +1210,6 @@ public class WarehouseManager extends Tool {
 	 * @返回前端数据:AjaxResult(Boolean, PMaterielConfig/String)
 	 */
 	private void getMaterielConfig(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("进入getMaterielConfig");
 		AjaxResult<Object> result = null;
 		// 获取数据
 		String cmId = request.getParameter("cmId");
@@ -1278,7 +1254,6 @@ public class WarehouseManager extends Tool {
 	 * @返回前端数据:AjaxResult(Boolean, PageModel/String)
 	 */
 	private void listMaterielConfig(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("进入listMaterielConfig");
 		AjaxResult<Object> result = null;
 		// 获取数据
 		String shelfId = request.getParameter("shelfId");
@@ -1331,7 +1306,6 @@ public class WarehouseManager extends Tool {
 	 * @返回前端数据:AjaxResult(Boolean, PageModel/String)
 	 */
 	private void listMateriel(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("进入listMateriel");
 		AjaxResult<Object> result = null;
 		// 获取数据
 		String currentPageStr = request.getParameter("currentPage");
@@ -1374,32 +1348,30 @@ public class WarehouseManager extends Tool {
 		
 	}
 	
-	private void writeResult(HttpServletResponse response, List result) {
-		System.out.println("进入writeResult");
-		response.setCharacterEncoding("utf-8");
-		response.setContentType("application/json;charset=utf-8");
-		try {
-			Writer writer = response.getWriter();
-			System.out.println("返回结果" + JSONArray.fromObject(result).toString());
-			
-			writer.write(JSONArray.fromObject(result).toString());
-			writer.flush();
-			writer.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
+//	private void writeResult(HttpServletResponse response, List result) {
+//		System.out.println("进入writeResult");
+//		response.setCharacterEncoding("utf-8");
+//		response.setContentType("application/json;charset=utf-8");
+//		try {
+//			Writer writer = response.getWriter();
+//			System.out.println("返回结果" + JSONArray.fromObject(result).toString());
+//			
+//			writer.write(JSONArray.fromObject(result).toString());
+//			writer.flush();
+//			writer.close();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
+//	
 	
 	/*返回结果给前端*/
 	private void writeResult(HttpServletResponse response, AjaxResult result) {
-		System.out.println("进入writeResult");
+		response.setHeader("Access-Control-Allow-Origin", "*");
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json;charset=utf-8");
 		try {
 			Writer writer = response.getWriter();
-			System.out.println("返回结果" + JSONObject.fromObject(result).toString());
-			
 			writer.write(JSONObject.fromObject(result).toString());
 			writer.flush();
 			writer.close();

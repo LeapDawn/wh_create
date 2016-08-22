@@ -23,7 +23,6 @@ public class MaterielCongfigDao {
 				+ "'" + (ma.getCmRemark()!=null?ma.getCmRemark():"") + "',"
 				+ "'" + ma.getShelf().getShId() + "'"
 				+ ");";
-		System.out.println(sql);
 		PreparedStatement pt = conn.prepareStatement(sql);
 		int rs = pt.executeUpdate();
 		if (pt != null) {
@@ -81,7 +80,7 @@ public class MaterielCongfigDao {
 			sql += " and s.po_id like '" + poId + "'";
 		}
 		if (ShId != null && !ShId.equals("")) {
-			sql += " and m.ShId like '" + ShId + "'";
+			sql += " and m.sh_id like '" + ShId + "'";
 		}
 		
 		PreparedStatement pt = conn.prepareStatement(sql);

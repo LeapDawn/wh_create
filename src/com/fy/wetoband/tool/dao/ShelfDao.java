@@ -99,7 +99,6 @@ public class ShelfDao {
 				+ " left join wh_positions p on s.po_id = p.po_id "
 				+ " left join wh_warehouse w on p.wh_id = w.wh_id "
 				+ " where s.shelf_id like '" + id + "';";
-		System.out.println(sql);
 		PreparedStatement pt = conn.prepareStatement(sql);
 		ResultSet rs = pt.executeQuery();
 		Shelf sh = null;
@@ -148,7 +147,6 @@ public class ShelfDao {
 		if (po_id != null && !po_id.equals("")) {
 			sql +=" and s.po_id like '" + po_id +"' ";
 		}
-		System.out.println(sql);
 		PreparedStatement pt = conn.prepareStatement(sql);
 		ResultSet rs = pt.executeQuery();
 		
