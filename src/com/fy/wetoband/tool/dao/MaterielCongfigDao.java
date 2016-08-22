@@ -70,6 +70,31 @@ public class MaterielCongfigDao {
 		return true;
 	}
 	
+	public boolean deleteBysuper(Connection conn, String whId, String poId, String ShId) throws SQLException {
+		String sql = "update wh_config_materiel m, wh_shelf s, wh_positions p set m.cm_discard='Y' "
+				+ "where m.sh_id=s.shelf_id and s.po_id=p.po_id ";
+		
+		if (whId != null && !whId.equals("")) {
+			sql += " and p.wh_id like '" + whId + "'";
+		}
+		if (poId != null && !poId.equals("")) {
+			sql += " and s.po_id like '" + poId + "'";
+		}
+		if (ShId != null && !ShId.equals("")) {
+			sql += " and m.ShId like '" + ShId + "'";
+		}
+		
+		PreparedStatement pt = conn.prepareStatement(sql);
+		int rs = pt.executeUpdate();
+		if (pt != null) {
+			pt.close();
+		}
+		if (rs == 0) {
+			return false;
+		}
+		return true;
+	}
+	
 	public MaterielConfig findById(Connection conn, String id) throws SQLException {
 		String sql = "select cm.ma_id, m.description as ma_name, mm.description as ma_model, ms.description as ma_spec, cm.cm_remark, cm.sh_id, cm.cm_discard, "
 				+ " s.shelf_description as sh_name,s.po_id, p.po_name, p.wh_id, w.wh_name "
@@ -281,11 +306,14 @@ public class MaterielCongfigDao {
 		return list(conn, "N", maName, sh_id, null, null, page, rows);
 	}
 	
-	public int count(Connection conn, String discard, String sh_id, String po_id, String wh_id) throws SQLException {
+	public int count(Connection conn,String maName, String discard, String sh_id, String po_id, String wh_id) throws SQLException {
 		String sql = "select count(cm.cm_id) from wh_config_materiel cm "
 				+ " left join wh_shelf s on cm.sh_id = s.shelf_id "
 				+ " left join wh_positions p on s.po_id = p.po_id "
 				+ " where 1=1 ";
+		if (maName != null && !maName.equals("")) {
+			sql += " and m.description like '%" + maName + "%' ";
+		}
 		if (discard != null && (discard.toUpperCase().equals("Y") || discard.toUpperCase().equals("N"))) {
 			sql +=" and cm.cm_discard like '" + discard +"' ";
 		}
@@ -314,8 +342,12 @@ public class MaterielCongfigDao {
 		return count;
 	}
 	
-	public int countAllMateriels(Connection conn) throws SQLException {
-		String sql = "select count(m.materials_id) from bd_materials m ";
+	public int countAllMateriels(Connection conn, String maName) throws SQLException {
+		String sql = "select count(m.materials_id) from bd_materials m where (m.isvalid=1 or m.isvalid is null) ";
+		
+		if (maName != null && !maName.equals("")) {
+			sql += " and m.description like '%" + maName + "%' ";
+		}
 		
 		PreparedStatement pt = conn.prepareStatement(sql);
 		ResultSet rs = pt.executeQuery();
@@ -332,11 +364,11 @@ public class MaterielCongfigDao {
 		return count;
 	}
 
-	public int countCard(Connection conn, String sh_id) throws SQLException {
-		return count(conn, "N", sh_id, null, null);
+	public int countCard(Connection conn,String maName, String sh_id) throws SQLException {
+		return count(conn, maName, "N", sh_id, null, null);
 	}
 	
 	public int countCard(Connection conn) throws SQLException {
-		return count(conn, "N", null, null, null);
+		return count(conn, null,"N", null, null, null);
 	}
 }

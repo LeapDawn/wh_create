@@ -69,6 +69,19 @@ public class PositionsDao {
 		return true;
 	}
 	
+	public boolean deleteBySuper(Connection conn, String whId) throws SQLException {
+		String sql = "update wh_positions p set p.po_discard = 'Y' where p.wh_id like '" + whId + "'";
+		PreparedStatement pt = conn.prepareStatement(sql);
+		int rs = pt.executeUpdate();
+		if (pt != null) {
+			pt.close();
+		}
+		if (rs == 0) {
+			return false;
+		}
+		return true;
+	}
+	
 	public Positions findById(Connection conn, String id) throws SQLException {
 		String sql = "select p.po_name, p.po_remark, p.po_discard, p.wh_id, w.wh_name from wh_positions p left join "
 				+ " wh_warehouse w on p.wh_id = w.wh_id where p.po_id like '" + id + "';";
@@ -182,7 +195,7 @@ public class PositionsDao {
 		return list(conn, poName, "N", wh_id, page, rows);
 	}
 	
-	public int count(Connection conn,String discard, String wh_id) throws SQLException {
+	public int count(Connection conn, String poName, String discard, String wh_id) throws SQLException {
 		String sql = "select count(po_id) from wh_positions p where 1=1 ";
 		if (discard != null && (discard.toUpperCase().equals("Y"))) {
 			sql +=" and p.po_discard like 'Y' ";
@@ -191,6 +204,9 @@ public class PositionsDao {
 		}
 		if (wh_id != null && !wh_id.equals("")) {
 			sql +=" and wh_id like '" + wh_id + "'";
+		}
+		if (poName != null && !poName.equals("")) {
+			sql +=" and p.po_Name like '%" + poName +"%' ";
 		}
 		PreparedStatement pt = conn.prepareStatement(sql);
 		ResultSet rs = pt.executeQuery();
@@ -207,11 +223,11 @@ public class PositionsDao {
 		return count;
 	}
 
-	public int countCard(Connection conn, String wh_id) throws SQLException {
-		return count(conn, "N", wh_id);
+	public int countCard(Connection conn, String poName, String wh_id) throws SQLException {
+		return count(conn, poName, "N", wh_id);
 	}
 	
 	public int countCard(Connection conn) throws SQLException {
-		return count(conn, "N", null);
+		return count(conn, null, "N", null);
 	}
 }

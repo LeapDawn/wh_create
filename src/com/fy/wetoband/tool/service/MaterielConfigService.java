@@ -110,9 +110,9 @@ public class MaterielConfigService {
 	 */
 	public PageModel listConfig(String maName, String shID, int currentPage, int rows) throws ToolException {
 		try {
-			int total = cmdao.countCard(conn, shID);
+			int total = cmdao.countCard(conn, maName, shID);
 			PageModel pageModel = new PageModel(total, rows, currentPage);
-			List<MaterielConfig> list = cmdao.listCard(conn, shID, pageModel.getCurrentPage(), pageModel.getRows());
+			List<MaterielConfig> list = cmdao.listCard(conn, maName, shID, pageModel.getCurrentPage(), pageModel.getRows());
 			List<PMaterielConfig> plist = new ArrayList<PMaterielConfig>();
 			for (MaterielConfig cm : list) {
 				plist.add(changeToPageModel(cm));
@@ -160,7 +160,7 @@ public class MaterielConfigService {
 	 */
 	public PageModel listAllMateriels(String maName, int currentPage, int rows) throws ToolException {
 		try {
-			int total = cmdao.countAllMateriels(conn);
+			int total = cmdao.countAllMateriels(conn, maName);
 			PageModel pageModel = new PageModel(total, rows, currentPage);
 			List<MaterielConfig> list = cmdao.listAllMateriel(conn, maName, pageModel.getCurrentPage(), pageModel.getRows());
 			List<PMaterielConfig> plist = new ArrayList<PMaterielConfig>();

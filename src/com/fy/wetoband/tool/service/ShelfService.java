@@ -9,6 +9,7 @@ import org.springframework.beans.BeanUtils;
 
 import com.fy.wetoband.tool.commons.IDGenerator;
 import com.fy.wetoband.tool.commons.ToolException;
+import com.fy.wetoband.tool.dao.MaterielCongfigDao;
 import com.fy.wetoband.tool.dao.ShelfDao;
 import com.fy.wetoband.tool.dto.PShelf;
 import com.fy.wetoband.tool.dto.PageModel;
@@ -18,6 +19,7 @@ import com.fy.wetoband.tool.entity.Shelf;
 public class ShelfService {
 	
 	private ShelfDao shdao = new ShelfDao();
+	private MaterielCongfigDao cmdao = new MaterielCongfigDao();
 	private Connection conn = null;
 
 	public ShelfService(Connection conn) {
@@ -71,18 +73,42 @@ public class ShelfService {
 	}
 	
 	/**
-	 * 根据ID删除货架
+	 * 根据ID删除货架(级联)
 	 * @param shID
 	 * @return
 	 * @throws ToolException
 	 */
 	public boolean deleteShelf(String shID) throws ToolException {
+		boolean success = false;
+		boolean hasToolException = false;
 		try {
-			return shdao.delete(conn, shID);
+			conn.setAutoCommit(false);
+			shdao.delete(conn, shID);
+			cmdao.deleteBysuper(conn, null, null, shID);
+			conn.commit();
+			success = true;
+			conn.setAutoCommit(true);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			hasToolException = true;
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			try {
+				conn.setAutoCommit(true);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		if (hasToolException) {
 			throw new ToolException("删除货架时发生异常");
 		}
+		
+		return success;
 	}
 	
 	/**
@@ -118,7 +144,7 @@ public class ShelfService {
 	public PageModel listByPo(String shName, String poID, int currentPage, int rows) throws ToolException {
 		
 		try {
-			int total = shdao.countCard(conn, poID);
+			int total = shdao.countCard(conn, shName, poID);
 			PageModel pageModel = new PageModel(total, rows, currentPage);
 			List<Shelf> list = shdao.listCard(conn, shName, poID, pageModel.getCurrentPage(), pageModel.getRows());
 			List<PShelf> plist = new ArrayList<PShelf>();

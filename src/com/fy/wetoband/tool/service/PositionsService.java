@@ -9,7 +9,9 @@ import org.springframework.beans.BeanUtils;
 
 import com.fy.wetoband.tool.commons.IDGenerator;
 import com.fy.wetoband.tool.commons.ToolException;
+import com.fy.wetoband.tool.dao.MaterielCongfigDao;
 import com.fy.wetoband.tool.dao.PositionsDao;
+import com.fy.wetoband.tool.dao.ShelfDao;
 import com.fy.wetoband.tool.dao.WarehouseDao;
 import com.fy.wetoband.tool.dto.PPositions;
 import com.fy.wetoband.tool.dto.PageModel;
@@ -18,8 +20,9 @@ import com.fy.wetoband.tool.entity.Warehouse;
 
 public class PositionsService {
 
-	private WarehouseDao whdao = new WarehouseDao();
 	private PositionsDao podao = new PositionsDao();
+	private ShelfDao shdao = new ShelfDao();
+	private MaterielCongfigDao cmdao = new MaterielCongfigDao();
 	private Connection conn = null;
 
 	public PositionsService(Connection conn) {
@@ -70,18 +73,44 @@ public class PositionsService {
 	}
 	
 	/**
-	 * 废弃仓位
+	 * 废弃仓位(级联)
 	 * @param poID  仓位ID
 	 * @return
 	 * @throws ToolException
 	 */
 	public boolean deletePosition(String poID) throws ToolException{
+		boolean success = false;
+		boolean hasToolException = false;
 		try {
-			return podao.delete(conn, poID);
+			conn.setAutoCommit(false);
+			podao.deleteBySuper(conn, poID);
+			shdao.deleteBySuper(conn, null, poID);
+			cmdao.deleteBysuper(conn, null, poID, null);
+			conn.commit();
+			success = true;
+			conn.setAutoCommit(true);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			hasToolException = true;
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			try {
+				conn.setAutoCommit(true);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		if (hasToolException) {
 			throw new ToolException("删除仓位时发生异常");
 		}
+		
+		return success;
+		
 	}
 	
 	/**
@@ -115,7 +144,7 @@ public class PositionsService {
 	 */
 	public PageModel listByWh(String poName, String whID, int currentPage, int rows) throws ToolException{
 		try {
-			int total = podao.countCard(conn, whID);
+			int total = podao.countCard(conn, poName, whID);
 			PageModel pageModel = new PageModel(total, rows, currentPage);
 			List<Positions> list = podao.listCard(conn, poName, whID, pageModel.getCurrentPage(), pageModel.getRows());
 			List<PPositions> plist = new ArrayList<PPositions>();
