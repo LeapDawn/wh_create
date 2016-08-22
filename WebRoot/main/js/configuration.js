@@ -247,15 +247,18 @@ M_table.saveInfo = function () {
 	var newURL = M_table.url + 'toolAction=addMaterielConfig';
 	var param = {
 		shelfId : $('#shelfName').data('id'),
-		maId : $('#maName').data('id'),
+		maId : $('#maName').data('uid'),
 		cmRemark : $('#cmRemark').val()
 	}
 
 	publicDom.getData('post',newURL,param,function(data){
 		if(data.state==true){
-			M_table.showConfirmModal('成功','success','保存成功！')
+			M_table.showConfirmModal('成功','success','保存成功！');
+			$('.confirm').click(function() {
+				location.reload();
+			});
 		}else{
-			M_table.showConfirmModal('错误','success','保存失败！')
+			M_table.showConfirmModal('错误','success','保存失败！');
 		}
 	})
 }
@@ -507,6 +510,7 @@ var bindEvent = function () {
 		$('#selectBtn,#selectBtn-ma').prop('disabled', false);
 		$('#modifyBtn').hide();
 		$('#saveBtn').show();
+		$('.mustInput').show();
 	});
 
 	$('#modifyBtn').click(function() {
@@ -516,6 +520,7 @@ var bindEvent = function () {
 		$('#selectBtn,#selectBtn-ma').prop('disabled', false);
 		$('#modifyBtn').hide();
 		$('#saveBtn').show();
+		$('.mustInput').show();
 	});
 
 	$('#saveBtn').click(function() {
@@ -609,6 +614,7 @@ var bindEvent = function () {
 
 	$('.confirmSelect_3').click(function(){
 		// $('#maName').data('id',M_table.selectObj_ma.id);
+		$('#maName').data('uid',M_table.selectObj_ma.id);
 		$('#maName').val(M_table.selectObj_ma.name);
 		$('#maModel').val(M_table.selectObj_ma.model);
 		$('#maSpec').val(M_table.selectObj_ma.spec);

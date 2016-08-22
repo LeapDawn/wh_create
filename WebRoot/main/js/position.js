@@ -152,7 +152,10 @@ M_table.saveInfo = function () {
 
 	publicDom.getData('post',newURL,param,function(data){
 		if(data.state==true){
-			M_table.showConfirmModal('成功','success','保存成功！')
+			M_table.showConfirmModal('成功','success','保存成功！');
+			$('.confirm').click(function() {
+				location.reload();
+			});
 		}else{
 			M_table.showConfirmModal('错误','success','保存失败！')
 		}
@@ -254,6 +257,7 @@ var bindEvent = function () {
 		$('#selectBtn').prop('disabled', false);
 		$('#modifyBtn').hide();
 		$('#saveBtn').show();
+		$('.mustInput').show();
 	});
 
 	$('#modifyBtn').click(function() {
@@ -263,16 +267,22 @@ var bindEvent = function () {
 		$('#selectBtn').prop('disabled', false);
 		$('#modifyBtn').hide();
 		$('#saveBtn').show();
+		$('.mustInput').show();
 	});
 
 	$('#saveBtn').click(function() {
-		if(M_table.status == 1){
-			M_table.saveInfo();
-		}else if(M_table.status == 2){
-			M_table.updateInfo();
+		if($('#warehouseName').val()==""){
+			M_table.showConfirmModal('错误','success','请选择仓库！');
 		}else{
-			M_table.showConfirmModal('错误','success','发生了问题需要从头操作！')
+			if(M_table.status == 1){
+				M_table.saveInfo();
+			}else if(M_table.status == 2){
+				M_table.updateInfo();
+			}else{
+				M_table.showConfirmModal('错误','success','发生了问题需要从头操作！')
+			}	
 		}
+		
 		
 	});
 
@@ -354,7 +364,7 @@ M_table.showConfirmModal=function(info,status,msgBody){
 					            '<button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">&times;</button>'+  
 					            '<h4 class = "modal-title text-primary" id = "myModalLabel"><span class="'+ font_icon +'"></span> '+info+'</h4>'+
 					         '</div>'+
-					         '<div class = "modal-body">'+msgBody+'</div>'+
+					         '<div class = "modal-body">'+msgBody+'<span class="text-danger font-d-under font-w-bold">该操作将同时删除它的货架等信息！</span></div>'+
 					         '<div class = "modal-footer">'+
 					            '<button type = "button" class = "btn btn-primary deleteConfirm" data-dismiss = "modal">确定</button>'+
 					            '<button type = "button" class = "btn btn-default confirm" data-dismiss = "modal">取消</button>'+

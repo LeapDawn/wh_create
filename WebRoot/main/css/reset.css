@@ -4,6 +4,14 @@
 	font-family: 'Microsoft Yahei';
 }
 
+.font-w-bold{
+	font-weight: normal;
+}
+
+.font-d-under{
+	text-decoration: underline;
+}
+
 
 
 .header{

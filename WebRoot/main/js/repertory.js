@@ -1,6 +1,7 @@
 $(function(){
 	M_table.init();
 	M_table.getList();
+	M_table.validateForm();
 	bindEvent();
 })
 
@@ -16,6 +17,7 @@ var M_table = {
 	saveInfo:function(){},
 	updateInfo:function(){},
 	deleteInfo:function(){},
+	validateForm:function(){},
 }
 
 M_table.init = function () {
@@ -126,9 +128,16 @@ M_table.saveInfo = function () {
 
 	publicDom.getData('post',newURL,param,function(data){
 		if(data.state==true){
-			M_table.showConfirmModal('成功','success','保存成功！')
+			M_table.showConfirmModal('成功','success','保存成功！');
+			$('.confirm').click(function() {
+				location.reload();
+			});
 		}else{
-			M_table.showConfirmModal('错误','success','保存失败！')
+			if(data.value=="输入的仓库保管员未在雇员表中登记"){
+				M_table.showConfirmModal('错误','success','请检查保管人是否存在！');
+			}else{
+				M_table.showConfirmModal('错误','success','保存失败！');
+			}
 		}
 	})
 }
@@ -147,9 +156,15 @@ M_table.updateInfo = function() {
 
 	publicDom.getData('post',newURL,param,function(data){
 		if(data.state==true){
+
 			M_table.showConfirmModal('成功','success','修改成功！');
 		}else{
-			M_table.showConfirmModal('错误','success','修改失败！');
+			if(data.value=="输入的仓库保管员未在雇员表中登记"){
+				M_table.showConfirmModal('错误','success','请检查保管人是否存在！');
+			}else{
+				M_table.showConfirmModal('错误','success','修改失败！');
+			}
+			
 		}
 	})
 }
@@ -180,6 +195,7 @@ var bindEvent = function () {
 		$('.content-main-add input,.content-main-add textarea').prop('readonly', false);
 		$('#modifyBtn').hide();
 		$('#saveBtn').show();
+		$('.mustInput').show();
 	});
 
 	$('#modifyBtn').click(function() {
@@ -187,6 +203,7 @@ var bindEvent = function () {
 		$('.content-main-add input,.content-main-add textarea').prop('readonly', false);
 		$('#modifyBtn').hide();
 		$('#saveBtn').show();
+		$('.mustInput').show();
 	});
 
 	$('#saveBtn').click(function() {
@@ -224,6 +241,64 @@ var bindEvent = function () {
 	});
 
 }
+
+// M_table.validateForm=function(){
+// 	$( "#modifyForm" ).validate({
+// 		rules: {
+// 			whName:{
+// 				required:true,
+// 			},
+// 			whType:{
+// 				required:true,
+// 			},
+// 			whRemark:{
+// 				required:true,
+// 			}
+// 		},
+// 		messages: {
+// 			whname:{ 
+// 				required:"仓库名不为空",
+// 			},
+// 			whType:{
+// 				required:"仓库名不为空",
+// 			},
+// 			whRemark:{
+// 				required:"备注不为空",
+// 			}
+// 		},
+		
+// 		errorPlacement:function (error,element){
+// 			error.addClass( "help-block" );
+// 			element.parents( ".col-md-4,.col-md-5" ).addClass("has-feedback");
+// 			error.css('color', 'rgb(196,68,66)');
+// 			if( element.prop("type")==="checkbox") {
+// 				error.insertAfter( element.parent( ".form-group" ) );
+// 			}else{
+// 				error.insertAfter($( element ).closest( "form" )
+// 					.find( "label[for='" + element.attr( "id" ) + "']" ).next().next());
+// 			}
+			
+// 			if(!element.next("span")[0]){
+// 				$("<span class='glyphicon glyphicon-remove form-control-feedback'></span>").insertAfter(element);
+// 			}
+// 		},
+
+// 		success:function(label,element){
+// 			if (!$( element ).next("span")[0]){
+// 				$( "<span class='glyphicon glyphicon-ok form-control-feedback'></span>").insertAfter( $( element ) );
+// 			}
+// 		},
+// 		highlight:function(element,errorClass,validClass){
+// 			$(element).parents( ".col-md-4,.col-md-5" ).addClass( "has-error").removeClass("has-success");
+// 			$(element).next( "span" ).addClass( "glyphicon-remove").removeClass("glyphicon-ok");
+// 		},
+// 		unhighlight:function(element,errorClass,validClass){
+// 			$(element).parents(".col-md-4,.col-md-5").addClass("has-success").removeClass("has-error");
+// 			$(element).next("span").addClass("glyphicon-ok").removeClass("glyphicon-remove");
+// 		}
+// 	} );
+
+// }
 
 
 M_table.showConfirmModal=function(info,status,msgBody){
@@ -266,7 +341,7 @@ M_table.showConfirmModal=function(info,status,msgBody){
 					            '<button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">&times;</button>'+  
 					            '<h4 class = "modal-title text-primary" id = "myModalLabel"><span class="'+ font_icon +'"></span> '+info+'</h4>'+
 					         '</div>'+
-					         '<div class = "modal-body">'+msgBody+'</div>'+
+					         '<div class = "modal-body">'+msgBody+'<span class="text-danger font-d-under font-w-bold">该操作将同时删除它的仓位和货架等信息！</span></div>'+
 					         '<div class = "modal-footer">'+
 					            '<button type = "button" class = "btn btn-primary deleteConfirm" data-dismiss = "modal">确定</button>'+
 					            '<button type = "button" class = "btn btn-default confirm" data-dismiss = "modal">取消</button>'+
