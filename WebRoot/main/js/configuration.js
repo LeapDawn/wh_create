@@ -180,6 +180,7 @@ M_table.getList = function (curr) {
 				$('.content-main').hide();
 				$('.content-main-add').show();
 				$('#deleteBtn').show();
+				$('#selectBtn-ma,#selectBtn-po,#selectBtn,#selectBtn-sh').hide();
 				M_table.currentId = $(this).data('id');
 
 				M_table.getDetailInfo();
@@ -260,20 +261,20 @@ M_table.saveInfo = function () {
 }
 
 M_table.updateInfo = function() {
-	// var newURL = M_table.url + 'toolAction=updateMaterielConfig';
-	// var param = {
-	// 	cmId : $('#maName').data('id'),
-	// 	cmRemark : $('#cmRemark').val()
-	// }
-	// console.log(param);
+	var newURL = M_table.url + 'toolAction=updateMaterielConfig';
+	var param = {
+		cmId : $('#maName').data('id'),
+		cmRemark : $('#cmRemark').val()
+	}
+	console.log(param);
 
-	// publicDom.getData('post',newURL,param,function(data){
-	// 	if(data.state==true){
-	// 		M_table.showConfirmModal('成功','success','修改成功！');
-	// 	}else{
-	// 		M_table.showConfirmModal('错误','success','修改失败！');
-	// 	}
-	// })
+	publicDom.getData('post',newURL,param,function(data){
+		if(data.state==true){
+			M_table.showConfirmModal('成功','success','修改成功！');
+		}else{
+			M_table.showConfirmModal('错误','success','修改失败！');
+		}
+	})
 }
 
 M_table.deleteInfo = function() {

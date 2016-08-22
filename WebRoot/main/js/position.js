@@ -88,6 +88,7 @@ M_table.getList = function (curr) {
 				$('.content-main').hide();
 				$('.content-main-add').show();
 				$('#deleteBtn').show();
+				$('#selectBtn').hide();
 				M_table.currentId = $(this).data('id');
 
 				M_table.getDetailInfo();

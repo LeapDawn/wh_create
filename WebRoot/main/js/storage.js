@@ -120,6 +120,7 @@ M_table.getList = function (curr) {
 				$('.content-main').hide();
 				$('.content-main-add').show();
 				$('#deleteBtn').show();
+				$('#selectBtn').hide();
 				M_table.currentId = $(this).data('id');
 
 				M_table.getDetailInfo();
@@ -345,7 +346,7 @@ var bindEvent = function () {
 		M_table.status = 2;
 		$('.content-main-add input,.content-main-add textarea').prop('readonly', false);
 		$('.content-main-add #warehouseName,.content-main-add #positionsName').prop('readonly', true);
-		$('#selectBtn').prop('disabled', false);
+		$('#selectBtn-po').prop('disabled', false);
 		$('#modifyBtn').hide();
 		$('#saveBtn').show();
 	});
