@@ -310,6 +310,7 @@ public class MaterielCongfigDao {
 		String sql = "select count(cm.cm_id) from wh_config_materiel cm "
 				+ " left join wh_shelf s on cm.sh_id = s.shelf_id "
 				+ " left join wh_positions p on s.po_id = p.po_id "
+				+ " left join bd_materials m on cm.ma_id = m.materials_id "
 				+ " where 1=1 ";
 		if (maName != null && !maName.equals("")) {
 			sql += " and m.description like '%" + maName + "%' ";
