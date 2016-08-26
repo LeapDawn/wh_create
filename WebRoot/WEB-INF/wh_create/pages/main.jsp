@@ -20,6 +20,7 @@
 
 	<div class="content">
 		<div class="content-nav" style="min-height:516px;">
+		<h3 style="margin-top:1px;margin-bottom:32px;font-family:'楷体';font-weight:bold;">仓库建仓工具</h3>
 			<ul class="nav nav-pills nav-stacked">
 			  	<li role="presentation" class="active"><a href="${fyForwardUrl}&forwardPage=main.jsp"><span class="fa fa-arrow-right"></span> 仓库列表</a></li>
 			    <li role="presentation"><a href="${fyForwardUrl}&forwardPage=position.jsp">仓位列表</a></li>

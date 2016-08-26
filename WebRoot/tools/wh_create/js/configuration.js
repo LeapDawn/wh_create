@@ -176,6 +176,11 @@ M_table.getList = function (curr) {
 
 			$('.tableDIV table tbody tr').click(function() {
 
+				$('.content-main-add input,.content-main-add textarea').prop("readonly",true);
+				$('#saveBtn').hide();
+				$('#modifyBtn').show();
+				
+
 				$(this).addClass('bg-info').siblings().removeClass('bg-info');
 				$('.content-main').hide();
 				$('.content-main-add').show();
@@ -524,10 +529,13 @@ var bindEvent = function () {
 		M_table.status = 2;
 		$('.content-main-add input,.content-main-add textarea').prop('readonly', false);
 		$('#warehouseName,#positionsName,#maName,#maModel,#maSpec,#shelfName').prop('readonly', true);
+		$('#cmRemark').prop('readonly',false);
 		$('#selectBtn,#selectBtn-ma').prop('disabled', false);
+		$('#selectBtn,#selectBtn-po,#selectBtn-ma,#selectBtn-sh').show();
 		$('#modifyBtn').hide();
 		$('#saveBtn').show();
 		$('.mustInput').show();
+
 	});
 
 	$('#saveBtn').click(function() {
@@ -551,6 +559,8 @@ var bindEvent = function () {
 
 
 	$('#prevPage').click(function() {
+
+
 		$('.content-main').show();
 		$('.content-main-add').hide();
 		$('.bg-info').removeClass('bg-info');

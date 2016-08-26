@@ -54,6 +54,9 @@ M_table.getList = function (curr) {
 			})
 
 			$('.tableDIV table tbody tr').click(function() {
+				$('.content-main-add input,.content-main-add textarea').prop("readonly",true);
+				$('#saveBtn').hide();
+				$('#modifyBtn').show();
 
 				$(this).addClass('bg-info').siblings().removeClass('bg-info');
 				$('.content-main').hide();
