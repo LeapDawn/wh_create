@@ -95,7 +95,7 @@ public class MaterielCongfigDao {
 	}
 	
 	public MaterielConfig findById(Connection conn, String id) throws SQLException {
-		String sql = "select cm.ma_id, m.description as ma_name, mm.description as ma_model, ms.description as ma_spec, cm.cm_remark, cm.sh_id, cm.cm_discard, "
+		String sql = "select cm.ma_id, m.description as ma_name, t.description as ma_model, ms.description as ma_spec, cm.cm_remark, cm.sh_id, cm.cm_discard, "
 				+ " s.shelf_description as sh_name,s.po_id, p.po_name, p.wh_id, w.wh_name "
 				+ " from wh_config_materiel cm "
 				+ " left join wh_shelf s on cm.sh_id = s.shelf_id "
@@ -103,7 +103,7 @@ public class MaterielCongfigDao {
 				+ " left join wh_warehouse w on p.wh_id = w.wh_id "
 				+ " left join bd_materials m on cm.ma_id = m.materials_id "
 				+ " left join bd_spec ms on ms.spec_id = m.spec_id "
-				+ " left join bd_model mm on mm.model_id = m.model_id"
+				+ " left join bd_type t on t.type_id = m.type_id "
 				+ " where cm.cm_id like '" + id + "';";
 		PreparedStatement pt = conn.prepareStatement(sql);
 		ResultSet rs = pt.executeQuery();
@@ -186,10 +186,10 @@ public class MaterielCongfigDao {
 //	}
 	
 	public List<MaterielConfig> listAllMateriel(Connection conn, String maName, int page, int rows) throws SQLException {
-		String sql = "select m.materials_id, m.description as ma_name, mm.description as ma_model, ms.description as ma_spec "
+		String sql = "select m.materials_id, m.description as ma_name, t.description as ma_model, ms.description as ma_spec "
 				+ " from bd_materials m "
 				+ " left join bd_spec ms on ms.spec_id = m.spec_id "
-				+ " left join bd_model mm on mm.model_id = m.model_id where (m.isvalid=1 or m.isvalid is null) ";
+				+ " left join bd_type t on t.type_id = m.type_id where (m.isvalid=1 or m.isvalid is null) ";
 		
 		if (maName != null && !maName.equals("")) {
 			sql += " and m.description like '%" + maName + "%' ";
@@ -223,7 +223,7 @@ public class MaterielCongfigDao {
 	
 	
 	public List<MaterielConfig> list(Connection conn, String discard, String maName, String sh_id, String po_id, String wh_id, int page, int rows) throws SQLException {
-		String sql = "select cm.cm_id, cm.ma_id, m.description as ma_name, mm.description as ma_model, ms.description as ma_spec, cm.cm_remark, cm.sh_id, cm.cm_discard, "
+		String sql = "select cm.cm_id, cm.ma_id, m.description as ma_name, t.description as ma_model, ms.description as ma_spec, cm.cm_remark, cm.sh_id, cm.cm_discard, "
 				+ " s.shelf_description as sh_name,s.po_id, p.po_name, p.wh_id, w.wh_name "
 				+ " from wh_config_materiel cm "
 				+ " left join wh_shelf s on cm.sh_id = s.shelf_id "
@@ -231,7 +231,7 @@ public class MaterielCongfigDao {
 				+ " left join wh_warehouse w on p.wh_id = w.wh_id "
 				+ " left join bd_materials m on cm.ma_id = m.materials_id "
 				+ " left join bd_spec ms on ms.spec_id = m.spec_id "
-				+ " left join bd_model mm on mm.model_id = m.model_id"
+				+ " left join bd_type t on t.type_id = m.type_id"
 				+ " where 1=1 ";
 		if (maName != null && !maName.equals("")) {
 			sql += " and m.description like '%" + maName + "%' ";
